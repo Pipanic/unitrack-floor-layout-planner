@@ -737,7 +737,7 @@ const STRINGS = {
         <div class="help-row"><span class="keys">Scroll over empty canvas, − / +, or the <kbd>+</kbd> / <kbd>−</kbd> keys</span><span class="desc">Zoom. The number between the buttons is the current zoom.</span></div>
         <div class="help-row"><span class="keys">↺, or <kbd>Space</kbd></span><span class="desc">Fit the whole layout in view.</span></div>
         <div class="help-row"><span class="keys">↕ ↓ ↑, or <kbd>V</kbd></span><span class="desc">Show every level at full strength (↕), or fade the other level to work on ground (↓) or elevated (↑) track. <kbd>V</kbd> moves to the next of the three each time.</span></div>
-        <div class="help-row"><span class="keys">Detail button, or <kbd>T</kbd></span><span class="desc">Show or hide track detail: the ties (sleepers), and on slab track the slab and its fastenings, leaving the bare roadbed and rails. The icon shows what's on screen now. They also hide themselves below 1.00× zoom (⚙️ Settings can make that sooner, later or never); turn them on there to keep them until you next zoom back in.</span></div>
+        <div class="help-row"><span class="keys">Detail button, or <kbd>T</kbd></span><span class="desc">Show or hide track detail: the ties (sleepers), on slab track the slab and its fastenings, and on Unitram street track the paving, its joints and the road markings, leaving the bare roadbed and rails. The icon shows what's on screen now. They also hide themselves below 1.00× zoom (⚙️ Settings can make that sooner, later or never); turn them on there to keep them until you next zoom back in.</span></div>
         <div class="help-row"><span class="keys">Labels button, or <kbd>L</kbd></span><span class="desc">Part labels, four settings in turn: Limited (the default) labels only the pieces easily mistaken for a similar one, such as the S64 and the S60s; Printed labels every piece the same way, printed on the track so they grow and shrink with it; All labels every piece with its part code, horizontal, readable when zoomed out and growing with the track above 1.00× zoom, and moved along its piece where labels would crowd, or left off if there's no room anywhere along it; Off shows none. The icon shows the current setting.</span></div>
         <div class="help-row"><span class="keys">Ports button, or <kbd>P</kbd></span><span class="desc">The same for the green dots and orange arrows, below 0.30×. The selected end (blue dot) and the snap highlights always show, and <kbd>,</kbd> and <kbd>.</kbd> still work.</span></div>
         <p>If the planner is running sluggishly, or you've placed many pieces, try turning detail off.</p>
@@ -824,9 +824,9 @@ const STRINGS = {
         <div class="help-row"><span class="keys">⚡ Power View</span><span class="desc">Colour the track by how many joints it is from the nearest feeder track. Click again to turn it off. You can keep editing while it's on, but Gradient Mode is unavailable until you turn it off.</span></div>
         <div class="help-row"><span class="keys">Hover over a piece</span><span class="desc">See its count.</span></div>
         <div class="help-row"><span class="keys">Red at … joints</span><span class="desc">Set how many joints from a feeder count as too far.</span></div>
-        <div class="help-row"><span class="keys">Misc. → Terminal UniJoiner (24-818)</span><span class="desc">A feeder that fits in a joint instead of a feeder track, for where there's no room for one. Drag it onto any track end, open or joined; with a green end selected, clicking it fits it there. One per joint. Power View counts both pieces at that joint as fed; on double track it feeds only the track it's on.</span></div>
+        <div class="help-row"><span class="keys">Misc. → Terminal UniJoiner (24-818)</span><span class="desc">A feeder that fits in a joint instead of a feeder track, for where there's no room for one. Drag it onto any track end, open or joined, and it sits on whichever side of the track you drop it (on double track, always the outer side); with a green end selected, clicking it fits it there. One per joint. Power View counts both pieces at that joint as fed; on double track it feeds only the track it's on.</span></div>
         <div class="help-row"><span class="keys">Misc. → Insulated UniJoiner (24-816)</span><span class="desc">Stops power crossing a joint, to split the layout into separately fed sections. Drag it onto a joint between two pieces (not an open end); it sits across the track as a crossed-out ⚡. If either piece is dragged away, it's removed with the joint. Each counts as a pair, one per joint, so a pack of 20 fits ten joints; on double track it insulates only the track it's on. Power View stops counting at it.</span></div>
-        <div class="help-row"><span class="keys">Drag a UniJoiner's ⚡</span><span class="desc">Move it to another joint or track end. Click it, then <kbd>Delete</kbd>, to remove it. If you drag away one of the two pieces at a Terminal UniJoiner's joint, it stays with the piece you left behind.</span></div>
+        <div class="help-row"><span class="keys">Drag a UniJoiner's ⚡</span><span class="desc">Move it to another joint or track end, or to the other side of the same one. Click it, then <kbd>Delete</kbd>, to remove it. If you drag away one of the two pieces at a Terminal UniJoiner's joint, it stays with the piece you left behind.</span></div>
         <p>Track is blue at a feeder and turns red as it nears 20 joints; past that, a feeder nearer that spot would help. For comparison, KATO's M2 set runs fine on its one feeder with its farthest track about 11 joints away. If your track needs feeders closer than that, or copes with them further apart, set your own number in the box under the button ("Red at … joints"); it's remembered in this browser. Joints are counted along the track either way round, so a loop fed at one point is fed from both sides. Leaving a turnout counts as 1.3 joints, for its internal contacts. KATO's turnouts are power-routing: a feeder before a turnout powers both of its routes, but a feeder on one route only powers back to the start of the turnout, so the other route shows as not powered unless something else feeds it. Dark track has no feeder at all. Double track is two separate tracks, so each track is coloured by its own distance, split down the middle of the piece; and the double crossover (WX310) passes no power across the insulated gap in its centre, which cuts both tracks and both diagonals, so each of its four quarters is coloured by its own distance from a feeder. It's a guide, not a voltage reading.</p>
       </section>
 
@@ -866,6 +866,18 @@ const STRINGS = {
           <li><strong>Turntable:</strong> place Track Turntable Sections from Misc. around the pit. They snap to its rim, three tracks each, and selecting the turntable selects them too. The Fitted Connecting tracks join the sections' outer ends.</li>
           <li><strong>Island Platforms (23-171 PI-A, 23-172 PI-B, 23-173 C) and End A (23-174):</strong> 41&nbsp;mm wide, to fit between two tracks. A and B have a roof overhanging both; C has none. Drag one near a straight and it snaps flush to it, turning to match, and can be on either side of it; it joins other island pieces at either end (not one-sided platforms). The curved ends have a straight edge for a straight track and a curved one for a curve: PIE-2 and PIE-3 (23-175) for R718, PIE-4L and PIE-4R (23-176, 248&nbsp;mm) for R481; <kbd>F</kbd> swaps each pair.</li>
           <li><strong>One-sided Platforms (23-178 PS-A, 23-179 PS-B) and their ends (23-180, PSE-1 left and PSE-2 right):</strong> in Structures. The platforms have a 46&nbsp;mm roof that overhangs the track by 5&nbsp;mm; the ends are 200&nbsp;mm of plain 41&nbsp;mm slab with no roof. Drag one beside a straight (single or double track) and it snaps flush to the roadbed edge, parallel to the track, and slides freely along it; drag it away to unsnap. It snaps when it's turned within 30° of parallel, so turn it with the scroll wheel or <kbd>Q</kbd> / <kbd>E</kbd> first. Platforms have green ends of their own, which only other platforms join: drag one near the end of another (PS-A or PS-B, either end) and it snaps on, in line, as track does. PSE-1 only fits a platform's left end and PSE-2 its right; <kbd>F</kbd> turns one into the other. Clicking its palette button with a platform end selected attaches it there; otherwise it goes in the middle of the view. A platform stays on the ground whatever height the track beside it is.</li>
+          <li><strong>Unitram Conversion Track (40-025 TWA124PC):</strong> in Unitram. A 124&nbsp;mm double-track piece whose tracks run 33&nbsp;mm apart (Unitrack) at one end and 25&nbsp;mm apart (Unitram street track) at the other, each moving 4&nbsp;mm in a gentle S-curve. Two come in a pack; turn one round to use it at the other end of a Unitram section.</li>
+          <li><strong>Unitram Street Track Curves (40-103 TWR180L, 40-104 TWR180R):</strong> in Unitram. Double street track that starts 25&nbsp;mm apart and straight, then turns 45° on a centreline of R180, its tracks spreading to 33&nbsp;mm apart at the 45° end, so ordinary double track joins there. A left and a right also meet there, turning the street through 90° and leaving a 62&nbsp;mm square at the outside corner. Shift+scroll or F swaps left and right.</li>
+          <li><strong>Unitram Street Electric Turnouts R180mm (40-212 TWEP180L left, 40-213 TWEP180R right):</strong> in Unitram. F or Shift+scroll swaps left and right. The street curve's plate, with both tracks also running straight on, 25&nbsp;mm apart, to a 186&nbsp;mm end. Each track can leave on its curved route to the 45° end, so the outer route crosses the other track. In Power View each track is a turnout of its own: fed from the end where the tracks start, power reaches both its routes; fed at a route's end, it reaches only that start.</li>
+          <li><strong>Unitram Street 90° Crossing (40-301 TW-X90):</strong> in Unitram. A 62&nbsp;mm square where double street track crosses double street track, each track running straight through with its own power.</li>
+          <li><strong>Road plates:</strong> drag one near a straight edge and it snaps flush against it, level with either end of that edge, keeping your rotation to the nearest quarter turn (scroll or Q and E turn it as you go). That covers other road plates, Unitram straights, the crossing, the conversion track, and the long edge and square ends of street curves and turnouts. A quarter plate joins other plates by its two straight sides only. No road plate snaps to ordinary Unitrack.</li>
+          <li><strong>Unitram Quarter Circle Inner Road Plate (41-101):</strong> in Unitram. A road plate with no track that fills the inside of a 90° street corner made of a TWR180R and a TWR180L. Drag it near the inside of a street curve and it snaps into place, turned to fit. It stays on the ground and counts no track length.</li>
+          <li><strong>Unitram Straight Road Plate 124mm:</strong> in Unitram. Only sold inside sets such as TV1, so it has no part code or catalogue number. It fills the space between quarter plates. Against a Unitram straight it goes on either side, level with either end, with its road towards the track.</li>
+          <li><strong>Road Crossing Center Plate:</strong> in Unitram. A 62&nbsp;mm square road plate that comes with each R180 street curve, so it has no part code or catalogue number. It fills the notch at the outside of the corner two curves make.</li>
+          <li><strong>Straight Road Plate w/Centerline - 62mm:</strong> in Unitram. A 62&nbsp;mm square of road with a hatched median and yellow centreline running through it, which carries on from one plate to the next. Only sold inside sets, so it has no part code or catalogue number.</li>
+          <li><strong>Corner Road Plate w/Centerline:</strong> in Unitram. A road plate 186&nbsp;mm long and 62&nbsp;mm wide, with a crossing, a hatched median and a yellow centreline. Only sold inside sets, so it has no part code or catalogue number.</li>
+          <li><strong>Corner Road Plate:</strong> in Unitram. A 186&nbsp;mm square road plate for the corner between straight street tracks, printed like the quarter circle plate. Only sold inside sets, so it has no part code or catalogue number.</li>
+          <li><strong>Unitram Double Track Straights (40-033 TWS62, 40-024 TWS124, 40-014 TWS186):</strong> in Unitram. Street track with the two tracks 25&nbsp;mm apart, in a 62&nbsp;mm wide plate (a little wider than a double-track piece), with an edge strip of ordinary roadbed colour and a lighter paving with panel joints.</li>
           <li><strong>Beveled 60&nbsp;mm straights (S60L/R)</strong> are sold only with #4 turnouts, so they have no catalogue number of their own, and “Show as packs” buys them as part of a #4 turnout pack.</li>
         </ul>
       </section>
@@ -960,6 +972,7 @@ const STRINGS = {
     'palette.group.buffers': 'Buffers',
     'palette.group.buffersConcrete': 'Buffers (Concrete Tie)',
     'palette.group.structures': 'Structures',
+    'palette.group.unitram': 'Unitram',
     'palette.group.misc': 'Misc.',
     'palette.group.sets': 'Unitrack Sets',
     'palette.group.layouts': 'Layouts',
@@ -1288,6 +1301,21 @@ const STRINGS = {
     'catalog.D62FS.label': 'Double Track Straight 62mm (Dual Feeder, Slab)',
     'catalog.DW51L.label': 'Double Track Widening Section',
     'catalog.DW51R.label': 'Double Track Widening Section',
+    'catalog.TWA124.label': 'Unitram Conversion Track 124mm',
+    'catalog.TWS62.label': 'Unitram Double Track Straight 62mm',
+    'catalog.TWS124.label': 'Unitram Double Track Straight 124mm',
+    'catalog.TWS186.label': 'Unitram Double Track Straight 186mm',
+    'catalog.TWR180L.label': 'Unitram Street Track Curve R180-45° Left',
+    'catalog.TWR180R.label': 'Unitram Street Track Curve R180-45° Right',
+    'catalog.TWEP180L.label': 'Unitram Street Electric Turnout R180mm Left',
+    'catalog.TWEP180R.label': 'Unitram Street Electric Turnout R180mm Right',
+    'catalog.TW-X90.label': 'Unitram Street 90° Crossing 62mm',
+    'catalog.ROADPLATE_INNER.label': 'Unitram Quarter Circle Inner Road Plate',
+    'catalog.ROADPLATE_STRAIGHT.label': 'Unitram Straight Road Plate 124mm',
+    'catalog.ROADPLATE_CENTER.label': 'Road Crossing Center Plate',
+    'catalog.ROADPLATE_CORNER.label': 'Corner Road Plate',
+    'catalog.ROADPLATE_CENTERLINE.label': 'Corner Road Plate w/Centerline',
+    'catalog.ROADPLATE_CENTERLINE_62.label': 'Straight Road Plate w/Centerline - 62mm',
     'catalog.D282-45.label': 'Double Track Curve R282/315 45°',
     'catalog.D381-45.label': 'Double Track Curve R381/414 45°',
     'catalog.D447-45.label': 'Double Track Curve R447/480 45°',
@@ -1576,6 +1604,36 @@ const TRACK_TYPES = [
   // against katounitrackschema.pdf); `labelHand` drives the palette.
   {id:'DW51L', ties:'concrete', cat:'widener', catalogNo:'20-052', partCode:'WA310PC-R', length:310, spacingNear:33, spacingFar:66, hand:'L', labelHand:'R'},
   {id:'DW51R', ties:'concrete', cat:'widener', catalogNo:'20-051', partCode:'WA310PC-L', length:310, spacingNear:33, spacingFar:66, hand:'R', labelHand:'L'},
+  // Unitram street track's 25mm double-track spacing to Unitrack's 33: both tracks
+  // S-curve 4mm each, symmetric. Two to a pack.
+  {id:'TWA124', ties:'concrete', cat:'taper', catalogNo:'40-025', partCode:'TWA124PC', length:124, spacingNear:33, spacingFar:25},
+  // Unitram street-track double straights: the double-track roadbed's width, the
+  // tracks 25mm apart.
+  {id:'TWS186', cat:'tram', catalogNo:'40-014', partCode:'TWS186', length:186, spacing:25},
+  {id:'TWS124', cat:'tram', catalogNo:'40-024', partCode:'TWS124', length:124, spacing:25},
+  {id:'TWS62', cat:'tram', catalogNo:'40-033', partCode:'TWS62', length:62, spacing:25},
+  // Unitram street-track curves: a left and a right meet at their 45° ends to
+  // turn the street through 90°, inside KATO's 248mm square.
+  {id:'TWR180L', cat:'tramcurve', catalogNo:'40-103', partCode:'TWR180L', spacing:25, hand:'L'},
+  {id:'TWR180R', cat:'tramcurve', catalogNo:'40-104', partCode:'TWR180R', spacing:25, hand:'R'},
+  // Unitram street turnout: the street straight and the street curve in one plate.
+  {id:'TWEP180L', cat:'tramturnout', catalogNo:'40-212', partCode:'TWEP180L', length:186, spacing:25, hand:'L'},
+  {id:'TWEP180R', cat:'tramturnout', catalogNo:'40-213', partCode:'TWEP180R', length:186, spacing:25, hand:'R'},
+  // Unitram 90° crossing: double street track across double street track.
+  {id:'TW-X90', cat:'tramcross', catalogNo:'40-301', partCode:'TW-X90', length:62, spacing:25},
+  // Unitram road plate: no track, it fills the inside of a 90° street corner.
+  {id:'ROADPLATE_INNER', cat:'roadplate', catalogNo:'41-101', partCode:'', roadPlate:true},
+  // Only sold inside sets, with no number of its own. It fills between quarter plates.
+  {id:'ROADPLATE_STRAIGHT', cat:'roadplate', partCode:'', length:124, depth:186, roadPlate:true},
+  // Comes with each street curve, with no number of its own. It fills the
+  // notch at the outside of the corner two curves make.
+  {id:'ROADPLATE_CENTER', cat:'roadplate', partCode:'', length:62, depth:62, roadPlate:true, centerPlate:true},
+  // The quarter plate's printing on a full square, for the corner between
+  // straight street tracks. Only sold inside sets.
+  {id:'ROADPLATE_CORNER', cat:'roadplate', partCode:'', length:186, depth:186, roadPlate:true, cornerPlate:true},
+  // A road's width with a crossing and a median.
+  {id:'ROADPLATE_CENTERLINE', cat:'roadplate', partCode:'', length:186, depth:62, roadPlate:true, centerlinePlate:true},
+  {id:'ROADPLATE_CENTERLINE_62', cat:'roadplate', partCode:'', length:62, depth:62, roadPlate:true, centerlinePlate:true},
 
   // Double-track curves: concentric arcs 33mm apart. `superelevation`: a banked
   // port only mates with a banked port (isBankedPort/portsCompatible). 'full'
@@ -1733,7 +1791,7 @@ const TT_BY_ID = Object.fromEntries(TRACK_TYPES.map(t=>[t.id,t]));
 const TERMINAL_JOINER = {id:'TJ', cat:'joiner', joiner:true, catalogNo:'24-818', partCode:''};
 const INSULATED_JOINER = {id:'IJ', cat:'joiner', joiner:true, insulated:true, catalogNo:'24-816', partCode:''};
 const JOINER_TYPES = [TERMINAL_JOINER, INSULATED_JOINER];
-const shortCode = t=>t.partCode || t.catalogNo;
+const shortCode = t=>t.partCode || t.catalogNo || t.label; // a piece with no codes goes by its name
 JOINER_TYPES.forEach(t=>{ TT_BY_ID[t.id] = t; });
 function expansionVariant(id){
   const m = typeof id==='string' && /^(.+)@(\d+(?:\.\d)?)$/.exec(id);
@@ -1851,6 +1909,16 @@ const PRODUCTS = [
   {no:'20-043', contents:{D62F:1}, extras:{D62:1}},
   {no:'20-051', contents:{DW51R:1}},
   {no:'20-052', contents:{DW51L:1}},
+  {no:'40-025', contents:{TWA124:2}},
+  {no:'40-014', contents:{TWS186:1}},
+  {no:'40-024', contents:{TWS124:1}},
+  {no:'40-033', contents:{TWS62:1}},
+  {no:'40-103', contents:{TWR180L:1}, extras:{ROADPLATE_CENTER:1}},
+  {no:'40-104', contents:{TWR180R:1}, extras:{ROADPLATE_CENTER:1}},
+  {no:'40-212', contents:{TWEP180L:1}},
+  {no:'40-213', contents:{TWEP180R:1}},
+  {no:'40-301', contents:{'TW-X90':1}},
+  {no:'41-101', contents:{ROADPLATE_INNER:1}},
   {no:'20-181', contents:{'D381-45':2}},
   {no:'20-182', contents:{'D381-22':1, 'D381-22L':1}},
   {no:'20-187', contents:{'DS381-45':2}},
@@ -2314,6 +2382,62 @@ const LAYOUT_SETS = [
       ['S248', 0.0, 182.5, 0],
       ['S62', 248.0, 182.5, 0]],
     joins:[[0,0,17,1], [0,1,1,0], [1,1,2,0], [2,1,3,0], [3,1,4,0], [4,1,5,0], [5,1,6,0], [6,1,7,0], [7,1,8,0], [8,1,9,0], [9,1,10,0], [10,1,11,0], [11,1,12,0], [12,1,13,0], [13,1,14,0], [14,1,15,0], [15,1,16,0], [16,1,17,0]]},
+  {id:'TV1', no:'40-811', name:'TV1 - Unitram Oval Track Set', extras:{ROADPLATE_CENTER:4}, // one with each curve: four placed, four over
+    pieces:[
+      ['TWS124', -62.0, 217.0, 0],
+      ['TWR180R', -62.0, 217.0, 180],
+      ['TWR180L', -279.0, 0.0, 90],
+      ['TWR180R', 279.0, 0.0, 90],
+      ['TWR180L', 62.0, 217.0, 0],
+      ['TWS124', 62.0, -217.0, 180],
+      ['TWR180R', 62.0, -217.0, 0],
+      ['TWR180L', 279.0, 0.0, 270],
+      ['TWR180R', -279.0, 0.0, 270],
+      ['TWR180L', -62.0, -217.0, 180],
+      ['ROADPLATE_INNER', -62.0, 0.0, 180],
+      ['ROADPLATE_INNER', -62.0, 0.0, 270],
+      ['ROADPLATE_INNER', 62.0, 0.0, 0],
+      ['ROADPLATE_INNER', 62.0, 0.0, 90],
+      ['ROADPLATE_STRAIGHT', -62.0, 0.0, 0],
+      ['ROADPLATE_STRAIGHT', 62.0, 0.0, 180],
+      ['ROADPLATE_CENTER', -248.0, 186.0, 180],
+      ['ROADPLATE_CENTER', 248.0, 186.0, 90],
+      ['ROADPLATE_CENTER', 248.0, -186.0, 0],
+      ['ROADPLATE_CENTER', -248.0, -186.0, 270]],
+    joins:[[2,3,1,2], [2,2,1,3], [0,1,1,0], [0,0,1,1], [3,2,4,3], [3,3,4,2], [4,1,0,3], [4,0,0,2], [5,0,6,1], [5,1,6,0], [6,2,7,3], [6,3,7,2], [7,1,3,0], [7,0,3,1], [8,2,9,3], [8,3,9,2], [9,0,5,2], [8,0,2,1], [8,1,2,0], [9,1,5,3]]},
+  {id:'TV2', no:'40-812', name:'TV2 - Unitram Figure-Eight Crossing Expansion Set',
+    pieces:[
+      ['TW-X90', 31.0, 0.0, 0],
+      ['TWS186', -155.0, 0.0, 0],
+      ['TWS186', 62.0, -31.0, 270],
+      ['TWS186', 93.0, 0.0, 0],
+      ['TWS186', 62.0, 31.0, 90],
+      ['TWR180R', -155.0, -434.0, 0],
+      ['TWR180L', 62.0, -217.0, 270],
+      ['TWR180R', 279.0, 434.0, 180],
+      ['TWR180L', 62.0, 217.0, 90],
+      ['ROADPLATE_CENTER', 31.0, -403.0, 0],
+      ['ROADPLATE_CENTER', 93.0, 403.0, 180],
+      ['ROADPLATE_INNER', -155.0, -217.0, 0],
+      ['ROADPLATE_CORNER', -155.0, -217.0, 90],
+      ['ROADPLATE_CORNER', -155.0, 217.0, 0],
+      ['ROADPLATE_CORNER', -155.0, 217.0, 90],
+      ['ROADPLATE_CENTERLINE', 31.0, 403.0, 180],
+      ['ROADPLATE_CENTERLINE_62', -217.0, 465.0, 0],
+      ['ROADPLATE_CENTERLINE_62', -279.0, 465.0, 0],
+      ['ROADPLATE_CENTERLINE', -465.0, 465.0, 0],
+      ['ROADPLATE_STRAIGHT', -279.0, 217.0, 0],
+      ['ROADPLATE_CORNER', -279.0, 217.0, 270],
+      ['ROADPLATE_CENTERLINE', -527.0, 31.0, 90],
+      ['ROADPLATE_CENTER', -527.0, 465.0, 0],
+      ['ROADPLATE_CORNER', 279.0, -217.0, 270],
+      ['ROADPLATE_CENTERLINE', 93.0, -403.0, 0],
+      ['ROADPLATE_CENTERLINE', 465.0, -465.0, 180],
+      ['ROADPLATE_CENTER', 465.0, -403.0, 0],
+      ['ROADPLATE_CORNER', 279.0, -217.0, 180],
+      ['ROADPLATE_CORNER', 279.0, -217.0, 90],
+      ['ROADPLATE_CENTERLINE', 527.0, -31.0, 270]],
+    joins:[[0,0,1,2], [1,3,0,1], [2,1,0,5], [2,0,0,4], [3,0,0,2], [3,1,0,3], [4,0,0,7], [4,1,0,6], [2,3,6,1], [6,0,2,2], [5,2,6,3], [5,3,6,2], [7,2,8,3], [7,3,8,2], [8,1,4,3], [8,0,4,2]]},
 ];
 LAYOUT_SETS.forEach(set=>{
   const counts = {};
@@ -2321,7 +2445,7 @@ LAYOUT_SETS.forEach(set=>{
   // A bumper's own S62 is part of the bumper, as everywhere else.
   const contents = {};
   Object.entries(stockUsage(counts)).forEach(([t,n])=>{ if(n>0) contents[t] = n; });
-  PRODUCTS.push({no:set.no, contents, set:set.id, aliases:set.aliases||[]});
+  PRODUCTS.push({no:set.no, contents, extras:set.extras, set:set.id, aliases:set.aliases||[]});
 });
 
 // Shift+wheel cycles: realistic in-place swaps, not whole categories. Special
@@ -2345,6 +2469,9 @@ const MUTATION_GROUPS = [
   ['SX4L','SX4R'], // single crossover opposite hand
   ['X15L','X15R'], // 15° crossing opposite hand
   ['D248','D186','D124','D62'], // double track straights, excl. Dual Feeder
+  ['TWS186','TWS124','TWS62'], // Unitram double track straights
+  ['TWR180L','TWR180R'], // Unitram street curve opposite hand
+  ['TWEP180L','TWEP180R'], // Unitram street turnout opposite hand
   ['DW51L','DW51R'], // widening section opposite hand
   ['D282-45','D282-22','D282-22L'], // double track curve, R282/315
   ['D381-45','D381-22','D381-22L'], // double track curve, R381/414
@@ -2394,6 +2521,8 @@ const FLIP_OPPOSITE = {};
   ['SX4L','SX4R'],
   ['X15L','X15R'],
   ['DW51L','DW51R'],
+  ['TWR180L','TWR180R'],
+  ['TWEP180L','TWEP180R'],
   ['D282-22','D282-22L'],
   ['D381-22','D381-22L'],
   ['D447-22','D447-22L'],
@@ -2590,6 +2719,9 @@ let connections = {}; // "pieceId:portIdx" -> "otherId:otherPortIdx"  (both dire
 // feeder) or 'IJ' (insulated). At a joint it's on one side's end;
 // disconnectPort leaves it with the piece that stays (UNIJOINERS).
 let joiners = {};
+// The Terminal UniJoiners set on the far side of their track from the default
+// (joinerPose), by the same key: true. Absent means the default side.
+let joinerFlip = {};
 let nextId = 1;
 let selectedPort = null;     // {pieceId, portIdx} — for palette attach flow
 let selectedPieces = new Set(); // piece ids — for select/drag/delete
@@ -2666,7 +2798,7 @@ const MAX_HISTORY = 50;
 let undoStack = [];
 let redoStack = [];
 function snapshotState(){
-  return JSON.parse(JSON.stringify({pieces, connections, nextId, tableBoxes, joiners}));
+  return JSON.parse(JSON.stringify({pieces, connections, nextId, tableBoxes, joiners, joinerFlip}));
 }
 // `snapshot` is optional: for an action that might change nothing (say, an
 // attach the superelevation gate refuses), take it BEFORE the action and call
@@ -2704,6 +2836,7 @@ function restoreState(snap){
   nextId = snap.nextId;
   tableBoxes = snap.tableBoxes;
   joiners = snap.joiners || {};
+  joinerFlip = snap.joinerFlip || {};
   clearTransientState();
   invalidate();
   updateHistoryButtons();
@@ -2762,7 +2895,7 @@ function doAutosave(){
   try{
     localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({
       schema:SAVE_SCHEMA, version:SAVE_VERSION,
-      savedAt: new Date().toISOString(), nextId, pieces, connections, tableBoxes, joiners,
+      savedAt: new Date().toISOString(), nextId, pieces, connections, tableBoxes, joiners, joinerFlip,
     }));
     flashAutosaveMsg(tr('msg.autosaved'));
   }catch(err){
@@ -3252,11 +3385,15 @@ function crossoverDiagonalD(crossLen, spacing, hand, side, xOffset, yShift=0){
 // centreline point and heading `s` along it from port 1. Two arcs of radius R,
 // as crossoverDiagonalD draws them.
 function widenerCurveFrame(type){
-  const L = type.length, sign = type.hand==='L' ? 1 : -1;
-  const delta = type.spacingFar - type.spacingNear;
-  const hand = type.hand, opp = hand==='L' ? 'R' : 'L';
+  const delta = type.spacingFar - type.spacingNear, sign = type.hand==='L' ? 1 : -1;
+  return sCurveFrame(type.length, delta, type.hand, (type.hand==='L' ? -delta/2 : delta/2) + sign*delta);
+}
+// A track's S-curve of lateral change `delta` over `L`, starting at y0: `total`
+// length, and `at(s)`, the centreline point and heading `s` along it.
+function sCurveFrame(L, delta, hand, y0){
+  const opp = hand==='L' ? 'R' : 'L';
   const {R, angle} = crossoverGeometry(L, delta);
-  const base = {x:0, y:(hand==='L' ? -delta/2 : delta/2) + sign*delta};
+  const base = {x:0, y:y0};
   const mid = offsetArcPoint(R, hand, angle, R), hMid = hand==='L' ? angle : -angle;
   const frame2 = {ox:base.x+mid.x, oy:base.y+mid.y, rot:hMid};
   const arc = R*angle*Math.PI/180;
@@ -3268,6 +3405,13 @@ function widenerCurveFrame(type){
     const t = (s-arc)/R*180/Math.PI, q = worldPoint(frame2, offsetArcPoint(R, opp, t, R));
     return {x:q.x, y:q.y, heading: hMid + (opp==='L' ? t : -t)};
   }};
+}
+// The conversion track's two tracks: each moves `d` towards the centreline,
+// the -y one as a hand 'L' S-curve, the +y one as an 'R'. `shift` is
+// crossoverDiagonalD's yShift.
+function taperTracks(type){
+  const d = (type.spacingNear - type.spacingFar)/2, h = type.spacingNear/2;
+  return [{hand:'L', y0:-h, d, shift:-h + d/2}, {hand:'R', y0:h, d, shift:h - d/2}];
 }
 // Widener roadbed: from the straight track's outer edge to the curving track's
 // outer edge. Which offset edge is outer flips with hand, so pick by distance
@@ -3499,6 +3643,53 @@ function platformCurvedOutline(type){
   pts.push([0, platformCurveY(type, 0) - f*n]);
   return pts;
 }
+// Unitram plates are 62mm wide, from KATO's drawings: wider than double track.
+const TRAM_HALF = 31;
+const TRAM_KERB_W = 5; // its outer strips, from KATO's photos
+const TRAM_PANEL = 7.75; // the paving panels' length, about; a piece holds a whole number
+const TRAM_SEAM_COLOR = 'rgba(40,46,56,0.35)';
+// The Unitram street curves' centreline is R180: a run straight on, then 45° on
+// the arc. The tracks sit 25mm apart about it at the straight end and 33mm
+// (Unitrack's spacing) at the 45° end, each a straight run and one arc that
+// fits those two ends. Coordinates here: u along the straight end's direction,
+// v across it towards the inside of the curve (+v is +y on a right-hand piece,
+// which on screen turns right, the way KATO's name means it). KATO's drawings
+// give the plate: 62mm wide about the centreline, 186mm long on the outside and
+// square-cornered there. An `arc` is {c, vc, r, R}: straight along v = vc-r up
+// to u = c, then radius r about (c, vc), ending on u+v = c+vc; R is its track's.
+const TWR_RADIUS = 180, TWR_PLATE_HALF = TRAM_HALF, TWR_PLATE_LEN = 186, TWR_SPACING_FAR = 33;
+const TWR_SPINE_RUN = TWR_PLATE_LEN + TWR_PLATE_HALF - TWR_RADIUS;
+const TWR_PLATE_INNER = {c:TWR_SPINE_RUN, vc:TWR_RADIUS, r:TWR_RADIUS - TWR_PLATE_HALF};
+const twrSign = type=>type.hand==='R' ? 1 : -1;
+// The arc `d` outside (+) or inside (-) the track starting at v = v0 (0: the centreline).
+function twrArc(v0, d = 0){
+  const S = Math.SQRT1_2, off = Math.sign(v0)*TWR_SPACING_FAR/2*S;
+  const eu = TWR_SPINE_RUN + TWR_RADIUS*S - off, ev = TWR_RADIUS*(1 - S) + off;
+  const R = (ev - v0)/(1 - S);
+  return {c:eu - R*S, vc:v0 + R, r:R + d, R};
+}
+const twrEnd = a=>({u:a.c + a.r*Math.SQRT1_2, v:a.vc - a.r*Math.SQRT1_2});
+// The point `s` along an arc's own track, measured on the track's radius.
+function twrPoint(a, s){
+  const t = Math.max(0, s - a.c)/a.R;
+  return {u:Math.min(s, a.c) + a.r*Math.sin(t), v:a.vc - a.r*Math.cos(t)};
+}
+const twrTrackLen = a=>a.c + a.R*Math.PI/4;
+// Path pieces along an arc from the straight end to the 45° end (`back`: the
+// reverse, to close an outline).
+function twrArcD(a, sign, back){
+  const y0 = sign*(a.vc - a.r), e = twrEnd(a), sweep = sign>0 ? 1 : 0;
+  return back
+    ? `L${e.u} ${sign*e.v}A${a.r} ${a.r} 0 0 ${1-sweep} ${a.c} ${y0}L0 ${y0}`
+    : `M0 ${y0}L${a.c} ${y0}A${a.r} ${a.r} 0 0 ${sweep} ${e.u} ${sign*e.v}`;
+}
+// The road plate's outline: a square corner, and the street curves' inner edge.
+function roadPlateD(){
+  const L = TWR_PLATE_LEN, c = TWR_PLATE_INNER.c, r = TWR_PLATE_INNER.r;
+  return `M0 0H${L}V${-c}A${r} ${r} 0 0 0 ${c} ${-L}H0Z`;
+}
+// The plate's outline, the street curves' and street turnouts' alike.
+const twrPlateD = sign=>`M0 ${-sign*TWR_PLATE_HALF}L${TWR_PLATE_LEN} ${-sign*TWR_PLATE_HALF}L${TWR_PLATE_LEN} ${sign*TWR_PLATE_HALF}${twrArcD(TWR_PLATE_INNER, sign, true)}Z`;
 const TRACK_CATEGORIES = {
   straight: {
     // A dead end has no far port. Everything iterates getPorts(), so one-port
@@ -3684,6 +3875,124 @@ const TRACK_CATEGORIES = {
           `M0,${yStraight-RAIL_OFF} L${L},${yStraight-RAIL_OFF}`, `M0,${yStraight+RAIL_OFF} L${L},${yStraight+RAIL_OFF}`,
           crossoverDiagonalD(L, delta, curveHand, 1, 0, yShift), crossoverDiagonalD(L, delta, curveHand, -1, 0, yShift),
         ],
+      }];
+    },
+    center: midLengthCenter,
+    nominalLength: type => type.length,
+  },
+
+  taper: {
+    // Unitram conversion: ports as a double straight's, the tracks 33mm apart
+    // at x=0 and 25mm at x=L, each an S-curve square to both ends.
+    ports: type => {
+      const n = type.spacingNear/2, f = type.spacingFar/2;
+      return [
+        {x:0,y:-n,heading:180}, {x:0,y:n,heading:180},
+        {x:type.length,y:-f,heading:0}, {x:type.length,y:f,heading:0},
+      ];
+    },
+    graphics: type => {
+      const L = type.length, H = TRAM_HALF;
+      return [{
+        roadbed: `M0,${-H} L${L},${-H} L${L},${H} L0,${H} Z`,
+        rails: taperTracks(type).flatMap(t=>[1, -1].map(side=>crossoverDiagonalD(L, t.d, t.hand, side, 0, t.shift))),
+      }];
+    },
+    center: midLengthCenter,
+    nominalLength: type => type.length,
+  },
+
+  tram: {
+    // Unitram street-track double straight: ports as a double straight's, the
+    // tracks 25mm apart in a 62mm plate.
+    ports: fourCornerPorts,
+    graphics: type => {
+      const L = type.length, S = type.spacing, H = TRAM_HALF;
+      return [{
+        roadbed: `M0,${-H} L${L},${-H} L${L},${H} L0,${H} Z`,
+        rails: [-S/2, S/2].flatMap(c=>[c-RAIL_OFF, c+RAIL_OFF].map(y=>`M0,${y} L${L},${y}`)),
+      }];
+    },
+    center: midLengthCenter,
+    nominalLength: type => type.length,
+  },
+
+  tramcurve: {
+    // Unitram street curve (see TWR_RADIUS). Port order as a double curve's:
+    // near ends at -y and +y, then the same tracks' far ends.
+    ports: type => {
+      const sign = twrSign(type), h = type.spacing/2, tracks = [-sign*h, sign*h];
+      return [
+        ...tracks.map(v0=>({x:0, y:sign*v0, heading:180})),
+        ...tracks.map(v0=>{ const e = twrEnd(twrArc(v0)); return {x:e.u, y:sign*e.v, heading:sign*45}; }),
+      ];
+    },
+    graphics: type => {
+      const sign = twrSign(type), h = type.spacing/2;
+      return [{
+        roadbed: twrPlateD(sign),
+        rails: [-h, h].flatMap(v0=>[-RAIL_OFF, RAIL_OFF].map(d=>twrArcD(twrArc(v0, d), sign))),
+      }];
+    },
+    // The spine's half-way point.
+    center: type => {
+      const p = twrPoint(twrArc(0), twrTrackLen(twrArc(0))/2);
+      return {x:p.u, y:twrSign(type)*p.v};
+    },
+    // The spine's length: the mean of the two tracks'.
+    nominalLength: () => twrTrackLen(twrArc(0)),
+  },
+
+  roadplate: {
+    // Unitram road plates: the origin is the street corner's square corner, and
+    // the plate runs to +x and -y, up to the street curves' inner edge. With a
+    // `length` and `depth`, a plain rectangle.
+    ports: () => [],
+    graphics: type => [{roadbed: type.length ? `M0 0H${type.length}V${-type.depth}H0Z` : roadPlateD(), rails: []}],
+    center: type => ({x:(type.length || TWR_PLATE_LEN)/2, y:-(type.depth || TWR_PLATE_LEN)/2}),
+    nominalLength: () => 0,
+  },
+
+  tramcross: {
+    // Unitram 90° crossing: ports 0-3 as a double straight's, 4-7 the same turned
+    // 90° about the middle of the square, each track running straight through.
+    ports: type => {
+      const L = type.length, m = L/2, h = type.spacing/2;
+      return [
+        ...fourCornerPorts(type),
+        {x:m-h, y:-m, heading:-90}, {x:m+h, y:-m, heading:-90},
+        {x:m-h, y:m, heading:90}, {x:m+h, y:m, heading:90},
+      ];
+    },
+    graphics: type => {
+      const L = type.length, m = L/2, h = type.spacing/2;
+      return [{
+        roadbed: `M0 ${-m}H${L}V${m}H0Z`,
+        rails: [-h, h].flatMap(c=>[c-RAIL_OFF, c+RAIL_OFF]).flatMap(o=>[`M0 ${o}H${L}`, `M${m+o} ${-m}V${m}`]),
+      }];
+    },
+    center: midLengthCenter,
+    nominalLength: type => type.length,
+  },
+
+  tramturnout: {
+    // Unitram street turnout: both tracks carry straight on, 25mm apart, for the
+    // plate's length, and each also leaves on its street curve's route. In the
+    // street curve's plate. Ports 0/1 the throats, 2/3 the straight ends, 4/5
+    // the diverging ends, each pair in track order (powerNets).
+    ports: type => {
+      const sign = twrSign(type), h = type.spacing/2, tracks = [-sign*h, sign*h];
+      return [
+        ...tracks.map(v0=>({x:0, y:sign*v0, heading:180})),
+        ...tracks.map(v0=>({x:type.length, y:sign*v0, heading:0})),
+        ...tracks.map(v0=>{ const e = twrEnd(twrArc(v0)); return {x:e.u, y:sign*e.v, heading:sign*45}; }),
+      ];
+    },
+    graphics: type => {
+      const sign = twrSign(type), h = type.spacing/2, L = type.length;
+      return [{
+        roadbed: twrPlateD(sign),
+        rails: [-h, h].flatMap(v0=>[-RAIL_OFF, RAIL_OFF].flatMap(d=>[`M0 ${v0+d}H${L}`, twrArcD(twrArc(v0, d), sign)])),
       }];
     },
     center: midLengthCenter,
@@ -4095,10 +4404,12 @@ const ROADBED_FILL_SELECTED = 'var(--sel-fill)';
 // selected slope); the gradient validity scale never uses it. Blue unless the
 // user picks another (Settings).
 const SELECTION_BLUE = 'var(--sel)';
+function isStreetTrack(type){ return type.cat==='tram' || type.cat==='tramcurve' || type.cat==='tramturnout' || type.cat==='tramcross'; }
 function roadbedFillFor(type, isSelected){
   if(isSelected) return ROADBED_FILL_SELECTED;
   if(type.platform) return PLATFORM_FILL;
-  return type.rerailer ? ROADBED_FILL_RERAILER : ROADBED_FILL_DEFAULT;
+  // A street piece's fill is its paving, which goes with the rest of its detail.
+  return type.rerailer || (isStreetTrack(type) && tiesView.shown) ? ROADBED_FILL_RERAILER : ROADBED_FILL_DEFAULT;
 }
 
 // Whether text on a piece drawn at world rotation `rot` would read upside
@@ -4406,6 +4717,231 @@ const RAIL_WIDTH_DEFAULT = 0.9;
 // shoulders flanking the roadbed (straight rect, or annularBandD on curves).
 // Look only; no pier object. DECK_HALF is an estimate matching the bridges'
 // envelope.
+// A Unitram straight's street surface: the roadbed fill is the paving (as the
+// rerailer's grey), with a strip of ordinary roadbed along each edge and the
+// panel joints, from KATO's close-up: a seam along each side's paving and a
+// pair along the middle (three columns between the tracks), and a joint across
+// every panel but the middle column's, all in line.
+// The columns against the rails' outer sides are as wide as the one beside the
+// outer rail (seam to rail), so the middle column is what's left.
+function tramColumns(spacing){
+  const out = TRAM_HALF - TRAM_KERB_W, seamOut = out - 2.8, railOut = spacing/2 + RAIL_OFF, railIn = spacing/2 - RAIL_OFF;
+  return {out, seamOut, mid:railIn - (seamOut - railOut)};
+}
+// Toggle Detail hides it all, down to the bare roadbed (roadbedFillFor) and rails.
+function appendStreetSurface(g, type, style, shown = tiesView.shown){
+  if(!shown) return;
+  if(type.cat==='tramcurve' || type.cat==='tramturnout') appendCurvedStreetSurface(g, type, style);
+  if(type.cat==='tramcross') appendCrossingStreetSurface(g, type, style);
+  if(type.cat==='roadplate') (type.centerPlate ? appendCenterPlateSurface : type.centerlinePlate ? appendCenterlinePlateSurface : type.length && !type.cornerPlate ? appendStraightRoadPlateSurface : appendRoadPlateSurface)(g, style, type);
+  if(type.cat!=='tram') return;
+  const L = type.length, H = TRAM_HALF, K = TRAM_KERB_W, edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
+  [-H, H - K].forEach(y=>g.appendChild(el('rect', {x:0, y, width:L, height:K, fill:edge})));
+  appendStraightStreetLines(g, L, type.spacing);
+}
+// The road plate's printing, measured off KATO's pack photo: a kerbed pavement
+// round a car park, with its tactile line and parking bays, and the road beyond
+// with its crossings, cycle lane and lane lines. The road arrows and small
+// symbols aren't drawn.
+const ROAD_PLATE_LOT = '#4c525d', ROAD_PLATE_PAVEMENT = '#8d8f98', ROAD_PLATE_TACTILE = '#c9a93b';
+// Every row of bays runs the same distance from the corner, so plates side by
+// side line up. A bay across the x axis, between x = a and x = b.
+const ROAD_PLATE_BAY_FOOT = 85, ROAD_PLATE_BAY_TIP = 107;
+const roadPlateBay = ([a, b])=>{ const r = (b-a)/2;
+  return `M${a} ${-ROAD_PLATE_BAY_FOOT}V${r-ROAD_PLATE_BAY_TIP}A${r} ${r} 0 0 1 ${b} ${r-ROAD_PLATE_BAY_TIP}V${-ROAD_PLATE_BAY_FOOT}`; };
+// The straight plate's printing, from a photo of one: the quarter plate's
+// bands carried straight on, so they meet it at both ends.
+function appendStraightRoadPlateSurface(g, style, type){
+  const L = type.length, printing = el('g', {});
+  const paint = (d, attrs)=>el('path', {d, fill:'none', ...attrs});
+  const zebra = [85.5, 90.7, 96, 101.2, 106.5].map(y=>`M58.7 ${-y}H71.7`).join('');
+  const bays = [[5.6, 8.7], [21.7, 25], [37.8, 41], [81.7, 85], [97.8, 101], [115, 119]].map(roadPlateBay).join('');
+  [
+    el('path', {d:`M0 -137H${L}V0H0Z`, fill:ROADBED_FILL_RERAILER}),
+    el('path', {d:`M0 -135.5H${L}V0H0Z`, fill:ROAD_PLATE_PAVEMENT}),
+    el('path', {d:`M0 -112H${L}V0H0Z`, fill:style.selected ? ROADBED_FILL_SELECTED : ROAD_PLATE_LOT}),
+    paint(`M0 -117.5H${L}`, {stroke:ROAD_PLATE_TACTILE, 'stroke-width':1.3}),
+    paint(`M0 -138.5H${L}M15 -162H45M77 -162H107M53.5 -85V-107${bays}`, {stroke:TWR_MARK_COLOR, 'stroke-width':0.9}),
+    paint(zebra, {stroke:TWR_MARK_COLOR, 'stroke-width':2.2}),
+  ].forEach(n=>printing.appendChild(n));
+  g.appendChild(printing);
+}
+// The centerline plate's printing, measured off KATO's photo: a crossing with a
+// cycle lane beside it (the corner plate's, the same distance from the far end),
+// a hatched median each side of it, rounded at one end and with the yellow
+// centreline along the other, then a stop line and a lane arrow.
+function appendCenterlinePlateSurface(g, style, type){
+  const white = {fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':0.9};
+  // The hatching repeats six times in 62mm, so it carries on from plate to plate.
+  const pitch = 62/6, hatching = (from, to)=>{
+    let d = '';
+    for(let k=Math.floor((from - 22 - to)/pitch);to + k*pitch<=to;k++) d += `M${to + k*pitch} -20.4L${to + k*pitch + 21.2} -41.6`;
+    return d;
+  };
+  if(type.length===62){
+    // Just the median and centreline, running edge to edge.
+    g.appendChild(clipTo(el('path', {d:hatching(0, 62), fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':3.6}), 'M0 -41.6H62V-20.4H0Z'));
+    g.appendChild(el('path', {d:'M0 -41.6H62M0 -20.4H62', ...white}));
+    g.appendChild(el('path', {d:'M0 -31H62', fill:'none', stroke:ROAD_PLATE_TACTILE, 'stroke-width':1.2}));
+    return;
+  }
+  const median = 'M109 -41.6H186V-20.4H109ZM60.3 -41.6H75.6V-20.4H60.3A10.6 10.6 0 0 1 60.3 -41.6Z';
+  const hatch = hatching(50, 186);
+  let zebra = '';
+  for(let k=0;k<=10;k++) zebra += `M87 ${3.7 + 5.4*k - type.depth}H109`;
+  g.appendChild(clipTo(el('path', {d:hatch, fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':3.6}), median));
+  g.appendChild(el('path', {d:median, ...white}));
+  g.appendChild(el('path', {d:'M109 -31H186', fill:'none', stroke:ROAD_PLATE_TACTILE, 'stroke-width':1.2}));
+  g.appendChild(el('path', {d:`M79.5 0V${-type.depth}M87.7 0V${-type.depth}M124.4 0V-20.4M155 -11H184`, ...white}));
+  g.appendChild(el('path', {d:zebra, fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':2.6}));
+  g.appendChild(el('path', {d:'M150 -11L158 -13.2V-8.8Z', fill:TWR_MARK_COLOR}));
+}
+// The centre plate's printing, measured off KATO's photo: a diamond whose sides
+// curve slightly inward, five lines across it, and four slim arrows round it,
+// each beside a side and all circling the same way. Drawn as it sits on the
+// plate with the street curves at the lower left.
+function appendCenterPlateSurface(g, style, type){
+  const m = type.length/2, R = 13.5, sag = 0.6;
+  const side = (fromX, fromY, toX, toY)=>{
+    const cx = (fromX + toX)/2, cy = (fromY + toY)/2;
+    return `Q${cx - Math.sign(cx)*sag + m} ${cy - Math.sign(cy)*sag - m} ${toX + m} ${toY - m}`;
+  };
+  const diamond = `M${m-R} ${-m}${side(-R, 0, 0, -R)}${side(0, -R, R, 0)}${side(R, 0, 0, R)}${side(0, R, -R, 0)}Z`;
+  const lines = [-8.4, -4.2, 0, 4.2, 8.4].map(o=>`M${m + o - 5} ${-m + 20}L${m + o + 5} ${-m - 20}`).join('');
+  const line = {fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':0.9};
+  g.appendChild(clipTo(el('path', {d:lines, ...line}), diamond));
+  g.appendChild(el('path', {d:diamond, ...line}));
+  // Each arrow's tail and tip from the middle, turned a quarter each time.
+  let shafts = '', heads = '';
+  [[-4.6, -23.5, -11.4, -15.5], [23.5, -4.6, 15.5, -11.4], [4.6, 23.5, 11.4, 15.5], [-23.5, 4.6, -15.5, 11.4]].forEach(([tx, ty, hx, hy])=>{
+    const len = Math.hypot(hx - tx, hy - ty), ux = (hx - tx)/len, uy = (hy - ty)/len, bx = hx - 3.6*ux, by = hy - 3.6*uy;
+    shafts += `M${m + tx} ${-m + ty}L${m + bx} ${-m + by}`;
+    heads += `M${m + hx} ${-m + hy}L${m + bx - 1.1*uy} ${-m + by + 1.1*ux}L${m + bx + 1.1*uy} ${-m + by - 1.1*ux}Z`;
+  });
+  g.appendChild(el('path', {d:shafts, fill:'none', stroke:TWR_MARK_COLOR, 'stroke-width':0.6}));
+  g.appendChild(el('path', {d:heads, fill:TWR_MARK_COLOR}));
+}
+function appendRoadPlateSurface(g, style, type){
+  const paint = (d, attrs)=>el('path', {d, fill:'none', ...attrs});
+  const white = {stroke:TWR_MARK_COLOR, 'stroke-width':0.9};
+  const yellow = {stroke:ROAD_PLATE_TACTILE};
+  // A corner plate's square has room for one more stripe in each crossing.
+  const stripesAcross = [...(type.cornerPlate ? [180.5] : []), 175, 169.6, 164, 158.7, 153, 147.8, 142.4].map(y=>`M77 ${-y}H99`).join('');
+  const stripesDown = [142.8, 148.5, 153.9, 159.3, 164.8, 170.2, 175.6, ...(type.cornerPlate ? [181] : [])].map(x=>`M${x} -77V-99`).join('');
+  const bayFoot = ROAD_PLATE_BAY_FOOT, bayTip = ROAD_PLATE_BAY_TIP;
+  const bays = [[6.7, 10.9], [22.8, 26.5]].map(roadPlateBay).join('')
+    + [[54, 57.6], [38.5, 42.4], [23, 26.5], [6.5, 10.4]].map(([a, b])=>{ const r = (b-a)/2;
+      return `M${bayFoot} ${-b}H${bayTip-r}A${r} ${r} 0 0 1 ${bayTip-r} ${-a}H${bayFoot}`; }).join('');
+  const hatched = [39, 58.7].map(x=>`M${x} ${-bayFoot}V${-bayTip}H${x+7}V${-bayFoot}Z`
+    + [-89, -96, -103].map(y=>`M${x} ${y+3}L${x+7} ${y-3}`).join('')).join('');
+  const printing = el('g', {});
+  [
+    el('path', {d:'M0 -137H108A29 29 0 0 1 137 -108V0H0Z', fill:ROADBED_FILL_RERAILER}),
+    el('path', {d:'M0 -135.5H108A27.5 27.5 0 0 1 135.5 -108V0H0Z', fill:ROAD_PLATE_PAVEMENT}),
+    el('path', {d:'M0 -112H112V0H0Z', fill:style.selected ? ROADBED_FILL_SELECTED : ROAD_PLATE_LOT}),
+    // The same distance out on both sides, so plates side by side line up.
+    paint('M0 -117.5H117.5V0M87 -117.5V-131.5M117.5 -87H131.5', {...yellow, 'stroke-width':1.3}),
+    paint('M76 -131.5H98M131.5 -76V-98', {...yellow, 'stroke-width':3}),
+    paint(`M0 -138.5H77M98.3 -138.5V-186M106.5 -138.5V-186M138.5 -98.3H186M138.5 -106.5H186`
+      + `M106.5 -138.5A32 32 0 0 1 138.5 -106.5M138.5 -76V0M138.5 -61H184M162 -59V-4M15 -162H45${bays}${hatched}`, white),
+    paint(stripesAcross + stripesDown, {stroke:TWR_MARK_COLOR, 'stroke-width':2.6}),
+  ].forEach(n=>printing.appendChild(n));
+  g.appendChild(clipTo(printing, TRACK_CATEGORIES.roadplate.graphics(type)[0].roadbed));
+}
+// The crossing's surface, from KATO's photo: all paving, with a triangle of
+// ordinary roadbed at each corner where the neighbouring straights' edge strips
+// run out. It has eightfold symmetry, so one set of joints and dots (from the
+// middle of the square) is repeated for every turn and mirror.
+const TRAM_CROSS_JOINTS = [[0, 0, 8, 0], [0, -21, 0, -8], [1.8, -31, 1.8, -21], [0, -21, 17, -21], [21, -21, 21, -17]];
+const TRAM_CROSS_DOTS = [[0, -25], [24, -24]];
+function appendCrossingStreetSurface(g, type, style){
+  const m = type.length/2, K = TRAM_KERB_W, edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
+  const turns = [-1, 1].flatMap(a=>[-1, 1].flatMap(b=>[(x, y)=>[m + a*x, b*y], (x, y)=>[m + a*y, b*x]]));
+  let corners = '';
+  [-1, 1].forEach(a=>[-1, 1].forEach(b=>{ corners += `M${m + a*m} ${b*m}H${m + a*(m - K)}L${m + a*m} ${b*(m - K)}Z`; }));
+  g.appendChild(el('path', {d:corners, fill:edge}));
+  let d = '';
+  TRAM_CROSS_JOINTS.forEach(([x0, y0, x1, y1])=>turns.forEach(t=>{ d += `M${t(x0, y0)}L${t(x1, y1)}`; }));
+  const dots = new Set(TRAM_CROSS_DOTS.flatMap(([x, y])=>turns.map(t=>`M${t(x, y)}h0`)));
+  g.appendChild(el('path', {d, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}));
+  g.appendChild(el('path', {d:[...dots].join(''), fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.7, 'stroke-linecap':'round'}));
+}
+function appendStraightStreetLines(g, L, spacing){
+  const {out, seamOut, mid} = tramColumns(spacing), n = Math.round(L/TRAM_PANEL), p = L/n;
+  let d = '', dots = '';
+  [-1, 1].forEach(sd=>{
+    d += `M0 ${sd*seamOut}H${L}M0 ${sd*mid}H${L}`;
+    for(let k=1;k<n;k++) d += `M${k*p} ${sd*mid}V${sd*out}`;
+    // A dot at the middle of each panel in the outermost column.
+    for(let k=0;k<n;k++) dots += `M${(k+0.5)*p} ${sd*(out + seamOut)/2}h0`;
+  });
+  for(let k=0;k<n;k++) dots += `M${(k+0.5)*p} 0h0`; // and in the middle column
+  g.appendChild(el('path', {d, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}));
+  g.appendChild(el('path', {d:dots, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.7, 'stroke-linecap':'round'}));
+}
+// A street curve's surface, the straights' columns following each track: the
+// paving lines up with a straight's at the near end, the plate round it is
+// ordinary roadbed, and the middle column takes up the tracks' spread, with a
+// joint across it after every two of its dots. The road markings on the outer
+// plate are placed from KATO's photo. A street turnout (`tramturnout`) is the
+// same plate holding a straight's paving and lines as well, the curve's lines
+// showing only outside the straight's paving.
+const TWR_MARK_COLOR = '#e6e9ee';
+const TWR_PANELS_OUTER = 21, TWR_PANELS_INNER = 19, TWR_DOTS_MIDDLE = 24;
+function appendCurvedStreetSurface(g, type, style){
+  const sign = twrSign(type), h = type.spacing/2, H = TWR_PLATE_HALF, L = TWR_PLATE_LEN, turnout = type.cat==='tramturnout';
+  const {out, seamOut, mid} = tramColumns(type.spacing);
+  const edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
+  // Each column edge, as a distance |v| at the near end, on its own side's track.
+  const arcAt = (v0, x)=>twrArc(v0, (v0<0 ? 1 : -1)*(x - h));
+  const y = v=>sign*v, line = (a, b)=>`M${a.u} ${y(a.v)}L${b.u} ${y(b.v)}`, dot = p=>`M${p.u} ${y(p.v)}h0`;
+  const paveOut = arcAt(-h, out), paveIn = arcAt(h, out), paveOutEnd = twrEnd(paveOut);
+  const straightPave = `M0 ${-out}H${L}V${out}H0Z`;
+  if(turnout){
+    g.appendChild(el('path', {fill:edge, d:twrPlateD(sign)}));
+    [straightPave, `${twrArcD(paveOut, sign)}${twrArcD(paveIn, sign, true)}Z`].forEach(pave=>g.appendChild(el('path', {fill:style.roadbedFill, d:pave})));
+    appendStraightStreetLines(g, L, type.spacing);
+  } else g.appendChild(el('path', {fill:edge, d:
+    `M0 ${y(-H)}L${L} ${y(-H)}L${L} ${y(H)}L${paveOutEnd.u} ${y(paveOutEnd.v)}${twrArcD(paveOut, sign, true)}Z`
+    + `${twrArcD(paveIn, sign)}${twrArcD(TWR_PLATE_INNER, sign, true)}Z`}));
+  let d = '', dots = '';
+  [-h, h].forEach(v0=>{
+    const seam = arcAt(v0, seamOut), inner = arcAt(v0, mid), n = v0<0 ? TWR_PANELS_OUTER : TWR_PANELS_INNER, p = twrTrackLen(twrArc(v0))/n;
+    const outer = arcAt(v0, out), dotted = arcAt(v0, (out + seamOut)/2);
+    d += twrArcD(seam, sign) + twrArcD(inner, sign);
+    for(let k=1;k<n;k++) d += line(twrPoint(inner, k*p), twrPoint(outer, k*p));
+    for(let k=0;k<n;k++) dots += dot(twrPoint(dotted, (k+0.5)*p));
+  });
+  // Across the middle column, square to the spine at `s` along it: where the
+  // spine's normal there meets each of the column's edges, on its arc or its
+  // straight run.
+  const spine = twrArc(0), pMid = twrTrackLen(spine)/TWR_DOTS_MIDDLE;
+  const meet = (a, s)=>{
+    const t = Math.max(0, s - spine.c)/spine.R, ou = Math.min(s, spine.c), nu = Math.sin(t), nv = -Math.cos(t);
+    const du = ou - a.c, dv = spine.vc - a.vc, b = du*nu + dv*nv;
+    let r = -b + Math.sqrt(b*b - (du*du + dv*dv - a.r*a.r));
+    if(ou + r*nu < a.c) r = (spine.vc - (a.vc - a.r))/Math.cos(t);
+    return {u:ou + r*nu, v:spine.vc + r*nv};
+  };
+  for(let k=2;k<TWR_DOTS_MIDDLE;k+=2) d += line(meet(arcAt(-h, mid), k*pMid), meet(arcAt(h, mid), k*pMid));
+  for(let k=0;k<TWR_DOTS_MIDDLE;k++) dots += dot(twrPoint(spine, (k+0.5)*pMid));
+  const lines = el('g', {});
+  lines.appendChild(el('path', {d, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}));
+  lines.appendChild(el('path', {d:dots, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.7, 'stroke-linecap':'round'}));
+  g.appendChild(turnout ? clipTo(lines, null, [straightPave]) : lines);
+  // Road markings: an edge line, two stripes, and two bars from the edge to the
+  // paving, as [u0, u1, v0, v1] (v1 null: up to the paving), level with the road
+  // plates' crossing and cycle lane so they carry on across a join. On a turnout the
+  // straight's paving leaves room for one stripe and the bars, and no edge line.
+  const paveEdge = u=>turnout ? -out : paveOut.vc - Math.sqrt(paveOut.r*paveOut.r - (u - paveOut.c)*(u - paveOut.c));
+  let marks = '';
+  (turnout
+    ? [[77, 99, -30.2, -27.9], [97.85, 98.75, -31, null], [106.05, 106.95, -31, null]]
+    : [[1.5, 77, -30.6, -29.4], [77, 99, -30.2, -27.9], [77, 99, -26.2, -23.7], [97.85, 98.75, -31, null], [106.05, 106.95, -31, null]]).forEach(([u0, u1, v0, v1])=>{
+    marks += `M${u0} ${y(v0)}L${u1} ${y(v0)}L${u1} ${y(v1 ?? paveEdge(u1))}L${u0} ${y(v1 ?? paveEdge(u0))}Z`;
+  });
+  g.appendChild(el('path', {d:marks, fill:TWR_MARK_COLOR}));
+}
 function appendViaductDeck(g, type){
   if(!type.viaduct) return;
   // roadHalf: the roadbed's half-width from its centreline: `spacing` for
@@ -5289,6 +5825,22 @@ function appendTies(g, type, ext, shown = tiesView.shown){
     g.appendChild(el('path',{d, fill:tieColor(type)}));
     return;
   }
+  if(type.cat==='taper'){
+    // Each track's ties square to it, evenly along its S-curve; a half tie at
+    // every end, running on to the edge (`ext`).
+    const H = TIE_HALF_LEN;
+    let d = '';
+    taperTracks(type).forEach(t=>{
+      const cf = sCurveFrame(type.length, t.d, t.hand, t.y0), m = Math.round(cf.total/TIE_PITCH), q = cf.total/m;
+      for(let k=0;k<=m;k++){
+        const c = cf.at(k*q), h = c.heading*Math.PI/180, dx = Math.cos(h), dy = Math.sin(h);
+        const u0 = k===0 ? -ext : -TIE_W/2, u1 = k===m ? ext : TIE_W/2;
+        d += polyD([[u0,-H],[u1,-H],[u1,H],[u0,H]].map(([u,v])=>({x:c.x + u*dx - v*dy, y:c.y + u*dy + v*dx})));
+      }
+    });
+    g.appendChild(el('path',{d, fill:tieColor(type)}));
+    return;
+  }
   if(type.cat==='dstraight' && type.tiesBetweenCaps){
     // Double truss (WS248T): both tracks' ties at the standard pitch between
     // the end caps only, half a spacing clear of each.
@@ -5592,7 +6144,7 @@ function drawPiece(g, type, style){
   // crossover does. Only once tied: tiedEdge and endExt also need `ties`.
   const tiedDouble = type.cat==='dstraight' && !type.bridgeStyle;
   const tiedDoubleCurve = type.cat==='dcurve';
-  const tiedEdge = type.ties && !type.noRoadbed && (type.cat==='straight' || type.cat==='curve' || type.cat==='crossover' || connectorCat || tiedDouble || tiedDoubleCurve || type.cat==='widener') && !style.nonScaling;
+  const tiedEdge = type.ties && !type.noRoadbed && (type.cat==='straight' || type.cat==='curve' || type.cat==='crossover' || connectorCat || tiedDouble || tiedDoubleCurve || type.cat==='widener' || type.cat==='taper') && !style.nonScaling;
   const maskedEdge = !!type.wedgeSide || connectorCat || type.cat==='widener'; // non-rectangular outlines: thin outline plus a clipped inward band
   const tiedMultiEdge = type.ties && (type.cat==='turnout' || type.cat==='wye' || type.cat==='crossing') && !style.nonScaling;
   const baseEdgeW = style.roadbedStrokeW!==undefined ? style.roadbedStrokeW : 1;
@@ -5641,11 +6193,12 @@ function drawPiece(g, type, style){
       if(L > 2*H) g.appendChild(el('path',{d:`M${H},${-S}H${L-H}M${H},${S}H${L-H}`,
         fill:'none', stroke:style.roadbedStroke, 'stroke-width':baseEdgeW}));
     } else {
-      const L = type.length, hh = (type.cat==='crossover' || tiedDouble) ? type.spacing/2 + ROADBED_HALF : ROADBED_HALF;
+      const L = type.length, hh = type.cat==='taper' ? TRAM_HALF : (type.cat==='crossover' || tiedDouble) ? type.spacing/2 + ROADBED_HALF : ROADBED_HALF;
       g.appendChild(el('rect',{x:inset, y:-hh+inset, width:L-2*inset, height:2*(hh-inset),
         fill:'none', stroke:style.roadbedStroke, 'stroke-width':w}));
     }
   }
+  appendStreetSurface(g, type, style, style.ties);
   appendViaductDeck(g, type);
   // Before the chords, which sit over it.
   appendTurntableWing(g, type, style);
@@ -5654,7 +6207,7 @@ function drawPiece(g, type, style){
   // read as a break.
   appendBridgeStructure(g, type);
   // Half the roadbed edge's width: what the end ties and rails extend by.
-  const endExt = type.ties && !type.noRoadbed && (type.cat==='straight' || type.cat==='curve' || type.cat==='turnout' || type.cat==='wye' || type.cat==='crossover' || type.cat==='crossing' || tiedDouble || tiedDoubleCurve || type.cat==='widener')
+  const endExt = type.ties && !type.noRoadbed && (type.cat==='straight' || type.cat==='curve' || type.cat==='turnout' || type.cat==='wye' || type.cat==='crossover' || type.cat==='crossing' || tiedDouble || tiedDoubleCurve || type.cat==='widener' || type.cat==='taper')
     ? (style.nonScaling ? 0 : (style.roadbedStrokeW!==undefined ? style.roadbedStrokeW : 1)/2) : 0;
   appendTies(g, type, endExt, style.ties);
   appendSuperelevationDot(g, type);
@@ -5675,7 +6228,7 @@ function drawPiece(g, type, style){
       const ox = -v*dy, oy = v*dx;
       runOn += `M${A.x+ox-endExt*dx} ${A.y+oy-endExt*dy}L${A.x+ox} ${A.y+oy}M${B_.x+ox} ${B_.y+oy}L${B_.x+ox+endExt*dx} ${B_.y+oy+endExt*dy}`;
     });
-  } else if(endExt && type.cat==='widener'){
+  } else if(endExt && (type.cat==='widener' || type.cat==='taper')){
     // Every end meets its port square on, so each rail runs straight on.
     getPorts(type).forEach(pt=>{ const e = pt.heading===0 ? endExt : -endExt;
       [-RAIL_OFF, RAIL_OFF].forEach(v=>{ runOn += `M${pt.x} ${pt.y+v}H${pt.x+e}`; }); });
@@ -5825,7 +6378,7 @@ function findPaletteSnapTarget(typeId, atX, atY, atRot){
   });
   if(best && bestDist<=SNAP_RADIUS) return best;
   // No platform end near: beside a straight instead.
-  return type.platform ? findPlatformSnapTarget(type, atX, atY, atRot||0, null) : null;
+  return snapsByPose(type) ? findPlatformSnapTarget(type, atX, atY, atRot||0, null) : null;
 }
 
 // A type's outline in its own coordinates: the convex hull of its true shape,
@@ -6374,7 +6927,7 @@ function pieceLook(piece, type, isSelected, frame){
   if(isSelectedSlope) fill = SELECTION_BLUE;
   else if(inGradientChain) fill = frame.liveGradientToneColor;
   else if(existingSlopeTone) fill = existingSlopeTone;
-  else if(!isSelected && frame.powerById && !type.platform) fill = _power.split.has(piece.id)
+  else if(!isSelected && frame.powerById && !snapsByPose(type)) fill = _power.split.has(piece.id)
     ? powerSplitFill(piece, type, frame) : powerColor(frame.powerById.get(piece.id));
   else if(!isSelected && sloped) fill = `url(#slopeFill-${piece.id})`;
   else if(!isSelected && isFlatElevatedPiece(piece, type)) fill = ROADBED_FILL_ELEVATED_FLAT;
@@ -6414,7 +6967,7 @@ function buildPieceDrawing(id, spec){
   wrap.append(defs, g);
   if(spec.sloped) buildSlopeFillGradient(asPiece, type, defs, spec.slopeRange);
   drawPiece(g, type, {roadbedFill:'var(--rb-fill)', roadbedStroke:'var(--rb-stroke)',
-    railColor: type.ties ? TIED_RAIL_COLOR : '#c7cdd6', worldRot: spec.flipped ? 180 : 0,
+    railColor: type.ties || isStreetTrack(type) ? TIED_RAIL_COLOR : '#c7cdd6', worldRot: spec.flipped ? 180 : 0,
     selected: spec.tint, ties: spec.ties, lengthLabel: spec.lengthLabel, printedFlip: spec.printedFlip});
   if(spec.fadeLevel===null) g.setAttribute('opacity', 1);
   else applyElevationOpacity(g, asPiece, type, defs, spec.fadeLevel);
@@ -7525,6 +8078,7 @@ const PALETTE_GROUPS = [
   {key:'bridges', match:t=>t.bridgeStyle!=null && !t.misc},
   {key:'buffers', match:t=>t.deadEnd===true && !t.misc && !isConcreteBuffer(t)},
   {key:'buffersConcrete', parent:'buffers', match:t=>t.deadEnd===true && isConcreteBuffer(t)},
+  {key:'unitram', match:t=>t.cat==='taper' || isStreetTrack(t) || t.roadPlate},
   {key:'structures', match:t=>t.platform===true},
 ];
 function renderPalette(){
@@ -7928,7 +8482,7 @@ function buildPieceIcon(type, W=PALETTE_ICON_W, H=PALETTE_ICON_H){
 function searchKey(text){ return String(text).toLowerCase().replace(/-/g,''); }
 // Catalogue number · part code, or the part code alone.
 function formatPieceCode(t){
-  return t.catalogNo && t.partCode ? `${t.catalogNo} &middot; ${t.partCode}` : shortCode(t);
+  return t.catalogNo && t.partCode ? `${t.catalogNo} &middot; ${t.partCode}` : t.partCode || t.catalogNo || '';
 }
 
 // The palette's name for a piece. (Left)/(Right) only where both hands are in
@@ -8005,7 +8559,87 @@ function rotateAround(x,y,px,py,deg){
 // Returns the pose in the same {ring:true, ox, oy, rot} shape as the wedge's,
 // so nothing is joined; `skip`: pieces to ignore (the dragged group).
 const PLATFORM_SNAP_ANGLE = 30; // degrees off parallel
+// Platforms and road plates are placed against track, by pose, not by port.
+function snapsByPose(type){ return !!(type.platform || type.roadPlate); }
+// Road plates fit together by their straight edges, so any plate lies flush
+// against any straight edge it meets (roadPlateEdges): level with either end of
+// that edge, at the quarter turn nearest how it's held. A quarter plate's two
+// straight sides are its only ones, so it only offers those, and only to other
+// plates, since track goes round its curve. Three fits are the plates' own: a
+// quarter plate inside a street curve or turnout, a center plate in the notch at
+// its outer corner, and a straight plate against a Unitram straight, its road
+// towards the track. Its centre has to be within this of where it would sit.
+const ROAD_PLATE_SNAP_RADIUS = 30; // mm
+// The straight edges a plate can lie against, as [x1, y1, x2, y2, nx, ny] in the
+// piece's own frame, (nx, ny) pointing out of the piece.
+function roadPlateEdges(t){
+  const box = (L, y0, y1)=>[[0, y1, L, y1, 0, 1], [L, y1, L, y0, 1, 0], [L, y0, 0, y0, 0, -1], [0, y0, 0, y1, -1, 0]];
+  if(t.roadPlate){
+    if(t.length) return box(t.length, -t.depth, 0);
+    return [[0, 0, TWR_PLATE_LEN, 0, 0, 1], [0, -TWR_PLATE_LEN, 0, 0, -1, 0]];
+  }
+  if(t.cat==='tram' || t.cat==='taper' || t.cat==='tramcross') return box(t.length, -TRAM_HALF, TRAM_HALF);
+  if(t.cat!=='tramcurve' && t.cat!=='tramturnout') return [];
+  // A curve's long straight edge, its outer one, and its two square ends.
+  const H = TWR_PLATE_HALF, L = TWR_PLATE_LEN, out = -twrSign(t);
+  return [[0, out*H, L, out*H, 0, out], [L, -H, L, H, 1, 0], [0, -H, 0, H, -1, 0]];
+}
+function findRoadPlateSnapTarget(type, cx, cy, rot, skip){
+  let best = null, bestDist = ROAD_PLATE_SNAP_RADIUS;
+  const c = pieceCenterLocal(type), quarterPlate = !type.length;
+  const length = type.length || TWR_PLATE_LEN, depth = type.depth || TWR_PLATE_LEN;
+  const offer = (origin, plateRot)=>{
+    const rc = rotateAround(c.x, c.y, 0, 0, plateRot);
+    const dist = Math.hypot(cx - origin.x - rc.x, cy - origin.y - rc.y);
+    if(dist>=bestDist - 1e-6) return; // a tie keeps the first, whatever the rounding
+    bestDist = dist;
+    best = {ring:true, ox:origin.x, oy:origin.y, rot:plateRot};
+  };
+  // Whether a plate at this turn meets an edge facing out along n with a straight side.
+  const faces = (plateRot, n)=>!quarterPlate || [[-1, 0], [0, 1]].some(([sx, sy])=>{
+    const s = rotateAround(sx, sy, 0, 0, plateRot);
+    return s.x*n.x + s.y*n.y < -0.99;
+  });
+  const flushAgainst = (p, [x1, y1, x2, y2, nx, ny])=>{
+    const a = worldPoint(p, {x:x1, y:y1}), b = worldPoint(p, {x:x2, y:y2}), n = rotateAround(nx, ny, 0, 0, p.rot);
+    const len = Math.hypot(b.x - a.x, b.y - a.y), dx = (b.x - a.x)/len, dy = (b.y - a.y)/len;
+    const edgeRot = Math.atan2(dy, dx)*180/Math.PI;
+    const held = Math.round(((rot - edgeRot + 540) % 360 - 180)/90);
+    const quarters = [held, held + 1, held - 1, held + 2].find(q=>faces(norm360(edgeRot + 90*q), n));
+    const turned = norm360(edgeRot + 90*quarters), rc = rotateAround(c.x, c.y, 0, 0, turned);
+    const lengthways = quarters%2===0, along = lengthways ? length : depth, across = lengthways ? depth : length;
+    [along/2, len - along/2].forEach(s=>{
+      offer({x:a.x + dx*s + n.x*across/2 - rc.x, y:a.y + dy*s + n.y*across/2 - rc.y}, turned);
+    });
+  };
+  Object.values(pieces).forEach(p=>{
+    if(skip && skip.has(p.id)) return;
+    const t = TT[p.typeId], streetCurve = t.cat==='tramcurve' || t.cat==='tramturnout';
+    if(streetCurve && type.centerPlate){
+      // The same whichever of the corner's two curves it finds.
+      const plateRot = norm360(p.rot + (twrSign(t)>0 ? 0 : 90)), rc = rotateAround(c.x, c.y, 0, 0, plateRot);
+      const mid = worldPoint(p, {x:TWR_PLATE_LEN + TWR_PLATE_HALF, y:0});
+      offer({x:mid.x - rc.x, y:mid.y - rc.y}, plateRot);
+    }
+    if(streetCurve && quarterPlate){
+      const sign = twrSign(t);
+      offer(worldPoint(p, {x:0, y:sign*(TWR_PLATE_LEN + TWR_PLATE_HALF)}), norm360(p.rot + (sign>0 ? 0 : 90)));
+    }
+    if(quarterPlate && !t.roadPlate) return;
+    if(t.cat==='tram' && type.length && !type.cornerPlate && !type.centerPlate && !type.centerlinePlate){
+      const off = TRAM_HALF + TWR_PLATE_LEN;
+      [0, t.length - type.length].forEach(along=>{
+        offer(worldPoint(p, {x:along, y:off}), norm360(p.rot));
+        offer(worldPoint(p, {x:along + type.length, y:-off}), norm360(p.rot + 180));
+      });
+      return;
+    }
+    roadPlateEdges(t).forEach(edge=>flushAgainst(p, edge));
+  });
+  return best;
+}
 function findPlatformSnapTarget(type, cx, cy, rot, skip){
+  if(type.roadPlate) return findRoadPlateSnapTarget(type, cx, cy, rot, skip);
   if(!type.platform) return null;
   let best = null, bestScore = Infinity;
   Object.values(pieces).forEach(p=>{
@@ -8326,7 +8960,7 @@ function applyDragTransform(){
   });
   ds.snapTarget = (ds.group.size===1 && primaryType.cat==='turntableWedge')
     ? (findRingSnapTarget(primaryType, pieces[ds.primaryId].ox, pieces[ds.primaryId].oy) || findSnapTarget(ds.group, ds.portIndex))
-    : [...ds.group].every(id=>pieceType(id).platform)
+    : [...ds.group].every(id=>snapsByPose(pieceType(id)))
     ? (findSnapTarget(ds.group, ds.portIndex) || (()=>{
         // Else beside a straight, shown snapped as it's dragged, since it slides along the track.
         // Only the grabbed piece looks for the track; the rest of a selection
@@ -8432,8 +9066,8 @@ window.addEventListener('mouseup', e=>{
     // only to a platform end it can join). Otherwise it goes in the middle of
     // the view, selected, staggered by clickSpawnPoint, and a platform snaps
     // against a straight if one is near.
-    const platformFits = TT[typeId].platform && selectedPort && getPorts(TT[typeId]).some((_, i)=>portsCompatible(TT[typeId], i, pieceType(selectedPort.pieceId), selectedPort.portIdx));
-    if(selectedPort && (!TT[typeId].platform || platformFits)){
+    const platformFits = snapsByPose(TT[typeId]) && selectedPort && getPorts(TT[typeId]).some((_, i)=>portsCompatible(TT[typeId], i, pieceType(selectedPort.pieceId), selectedPort.portIdx));
+    if(selectedPort && (!snapsByPose(TT[typeId]) || platformFits)){
       const type = TT[typeId];
       const before = snapshotState();
       let placed;
@@ -8455,7 +9089,7 @@ window.addEventListener('mouseup', e=>{
       let id;
       if(type.bundleWith) id = spawnBundledFree(typeId, x, y, 0)?.partnerId;
       else {
-        const pose = (type.platform && findPlatformSnapTarget(type, x, y, 0, null)) || freePlacementAt(type, x, y, 0);
+        const pose = (snapsByPose(type) && findPlatformSnapTarget(type, x, y, 0, null)) || freePlacementAt(type, x, y, 0);
         id = spawnFree(typeId, pose.ox, pose.oy, pose.rot ?? 0);
       }
       if(!id){ invalidate(); return; }
@@ -8770,6 +9404,7 @@ function joinerEnd(k){
 function moveJoiner(from, to){
   joiners[to] = joiners[from];
   delete joiners[from];
+  if(joinerFlip[from]){ joinerFlip[to] = true; delete joinerFlip[from]; }
   if(selectedJoiner===from) selectedJoiner = to;
 }
 // Drops joiners whose piece or end is gone (deleted, or retyped to fewer
@@ -8779,6 +9414,7 @@ function pruneJoiners(){
     const end = joinerEnd(k);
     if(!end || (joiners[k]==='IJ' && isOpen(end.pieceId, end.portIdx))) delete joiners[k];
   });
+  Object.keys(joinerFlip).forEach(k=>{ if(joiners[k]!=='TJ') delete joinerFlip[k]; });
   if(selectedJoiner && !joiners[selectedJoiner]) selectedJoiner = null;
 }
 // The joiner at this end's joint, on either side, or null.
@@ -8802,8 +9438,10 @@ function joinersOn(ids, typeId){
 // +x runs along the track and +y out to a TJ's wires' side. Both are chosen
 // from the joint's geometry, not which side holds the joiner, so it never
 // jumps: the outer side of a double track's two ends, else the side facing
-// down the screen; along, whichever way faces right (or up).
-function joinerPose(pieceId, portIdx){
+// down the screen; along, whichever way faces right (or up). `flip` puts a TJ
+// on the track's other side, except on a double track, whose inner side is the
+// other track (`free` says whether the choice is open).
+function joinerPose(pieceId, portIdx, flip){
   const piece = pieces[pieceId], type = pieceType(pieceId), ports = getPorts(type), port = ports[portIdx];
   const at = worldPoint(piece, port);
   const h = deg2rad(worldHeading(piece, port.heading));
@@ -8813,8 +9451,8 @@ function joinerPose(pieceId, portIdx){
   const twin = ports.find((p, i)=>i!==portIdx && headingDiff(p.heading, port.heading) < 1
     && Math.hypot(p.x-port.x, p.y-port.y) < 60);
   const out = twin ? (()=>{ const w = worldPoint(piece, twin); return (at.x-w.x)*nx + (at.y-w.y)*ny; })() : nx*0.6 + ny*0.8;
-  if(out < 0){ nx = -nx; ny = -ny; }
-  return {x:at.x, y:at.y, ax, ay, nx, ny};
+  if((out < 0) !== (!twin && !!flip)){ nx = -nx; ny = -ny; }
+  return {x:at.x, y:at.y, ax, ay, nx, ny, free:!twin};
 }
 // A TJ's two wires, as the S62F's, each turning to run beside the track:
 // nested Ls, so they never cross.
@@ -8883,7 +9521,7 @@ function drawJoinerWires(frame){
   const moving = joinerDrag && joinerDrag.moved ? joinerDrag.from : null;
   Object.keys(joiners).forEach(k=>{
     const end = joiners[k]==='TJ' && k!==moving && joinerEnd(k);
-    if(end) appendJoinerWires(frame.under, joinerPose(end.pieceId, end.portIdx));
+    if(end) appendJoinerWires(frame.under, joinerPose(end.pieceId, end.portIdx, joinerFlip[k]));
   });
 }
 function drawJoinerBolts(frame){
@@ -8892,7 +9530,7 @@ function drawJoinerBolts(frame){
   Object.keys(joiners).forEach(k=>{
     const end = k!==moving && joinerEnd(k);
     if(!end) return;
-    const typeId = joiners[k], pose = joinerPose(end.pieceId, end.portIdx), c = joinerBoltCentre(pose, typeId);
+    const typeId = joiners[k], pose = joinerPose(end.pieceId, end.portIdx, joinerFlip[k]), c = joinerBoltCentre(pose, typeId);
     const g = el('g', {});
     appendJoinerBolt(g, c, k===selectedJoiner, typeId, joinerAngle(pose, typeId));
     // The click and drag target: the bolt, at least a finger's width on screen.
@@ -8907,7 +9545,7 @@ function drawJoinerBolts(frame){
   if(joinerDrag && joinerDrag.moved && joinerDrag.worldX!=null){
     const g = el('g', {opacity:'0.8', style:'pointer-events:none;'});
     const typeId = joinerDrag.typeId, end = joinerDrag.target && joinerEnd(joinerDrag.target);
-    if(end) appendJoiner(g, joinerPose(end.pieceId, end.portIdx), typeId, true);
+    if(end) appendJoiner(g, joinerPose(end.pieceId, end.portIdx, joinerDrag.flip), typeId, true);
     else {
       // Off any end: the whole joiner, held by its bolt (what's grabbed, and
       // what's dropped on an end), and big enough to see at any zoom.
@@ -8927,7 +9565,7 @@ function startJoinerDrag(from, ev, typeId){
   if(!from && limitedMode && stockShortfall([typeId], [])){ ev.preventDefault(); flashStockShort(typeId); return; }
   if(!beginInteraction('joinerDrag')) return;
   ev.preventDefault();
-  joinerDrag = {from, typeId, startX:ev.clientX, startY:ev.clientY, moved:false, worldX:null, worldY:null, target:null};
+  joinerDrag = {from, typeId, startX:ev.clientX, startY:ev.clientY, moved:false, worldX:null, worldY:null, target:null, flip:from ? !!joinerFlip[from] : false};
 }
 window.addEventListener('mousemove', e=>{
   if(!joinerDrag) return;
@@ -8937,6 +9575,12 @@ window.addEventListener('mousemove', e=>{
     const {x, y} = screenToWorld(e.clientX, e.clientY);
     joinerDrag.worldX = x; joinerDrag.worldY = y;
     joinerDrag.target = joinerTargetAt(x, y, joinerDrag.from, joinerDrag.typeId);
+    // A TJ goes on the side of the track the pointer is on.
+    const end = joinerDrag.target && joinerEnd(joinerDrag.target);
+    if(end && joinerDrag.typeId==='TJ'){
+      const pose = joinerPose(end.pieceId, end.portIdx);
+      joinerDrag.flip = pose.free && (x-pose.x)*pose.nx + (y-pose.y)*pose.ny < 0;
+    }
   } else {
     joinerDrag.worldX = joinerDrag.worldY = null;
     joinerDrag.target = null;
@@ -8945,7 +9589,7 @@ window.addEventListener('mousemove', e=>{
 });
 window.addEventListener('mouseup', ()=>{
   if(!joinerDrag) return;
-  const {from, typeId, moved, target} = joinerDrag;
+  const {from, typeId, moved, target, flip} = joinerDrag;
   joinerDrag = null;
   endInteraction('joinerDrag');
   if(!moved){
@@ -8957,10 +9601,11 @@ window.addEventListener('mouseup', ()=>{
       joiners[k] = typeId;
       setSelection({joiner:k});
     } else flashHint(tr(typeId==='IJ' ? 'hint.insulatedHow' : 'hint.joinerHow', TT[typeId].label));
-  } else if(target && target!==from){
+  } else if(target && (target!==from || !!flip !== !!joinerFlip[from])){
     pushHistory();
-    if(from) delete joiners[from];
+    if(from){ delete joiners[from]; delete joinerFlip[from]; }
     joiners[target] = typeId;
+    if(typeId==='TJ' && flip) joinerFlip[target] = true;
     setSelection({joiner:target});
   }
   invalidate();
@@ -9033,7 +9678,7 @@ function pngJoinerMarks(ids, fontMm, edge, items, avoid){
     if(!end) return;
     const nb = getConnectedNeighbor(end.pieceId, end.portIdx);
     if(!ids.has(end.pieceId) && !(nb && ids.has(nb.pieceId))) return;
-    const p = joinerPose(end.pieceId, end.portIdx);
+    const p = joinerPose(end.pieceId, end.portIdx, joinerFlip[k]);
     if(joiners[k]==='IJ'){
       const r = boltH*0.42;
       svg += bolt(p, '#000') + [[-1, -1, 1, 1], [-1, 1, 1, -1]].map(([x1, y1, x2, y2])=>
@@ -9726,12 +10371,12 @@ document.getElementById('gradientBtn').addEventListener('click', ()=>{
 // breaks them; open ends that now meet track at their new height join it
 // (joinMeetingEnds), so raising and lowering again rejoins what it broke.
 function selectionAllElevated(){
-  const ids = [...selectedPieces].filter(id=>pieces[id] && !pieceType(id).platform);
+  const ids = [...selectedPieces].filter(id=>pieces[id] && !snapsByPose(pieceType(id)));
   return ids.length>0 && ids.every(id=>pieces[id].portElev.every(e=>e===GRADIENT_TARGET_MM));
 }
 function toggleSelectionElevation(){
   if(interactionMode!=='idle') return;
-  const ids = [...selectedPieces].filter(id=>pieces[id] && !pieceType(id).platform); // platforms stay on the ground
+  const ids = [...selectedPieces].filter(id=>pieces[id] && !snapsByPose(pieceType(id))); // platforms and road plates stay on the ground
   if(!ids.length) return;
   const elev = selectionAllElevated() ? 0 : GRADIENT_TARGET_MM;
   pushHistory();
@@ -9849,7 +10494,7 @@ try{
   if(saved>=1 && saved<=POWER_JOINTS_MAX) powerJointsLimit = saved;
 }catch(err){ /* private browsing etc.: the default */ }
 const POWER_TURNOUT_JOINTS = 1.3;
-const POWER_TURNOUT_CATS = new Set(['turnout', 'wye', 'crossover']);
+const POWER_TURNOUT_CATS = new Set(['turnout', 'wye', 'crossover', 'tramturnout']);
 // At a feeder --power-near (deep blue, apart from the selection blue), at the
 // limit --power-far (the steep red), unless the user picks others (Settings).
 const POWER_COLOR_NONE = '#2a2d33';           // no feeder reaches it
@@ -9861,14 +10506,16 @@ const POWER_COLOR_NONE = '#2a2d33';           // no feeder reaches it
 function powerNets(type){
   const n = getPorts(type).length, all = Array.from({length:n}, (_, i)=>i);
   if(type.powerBlock) return all.map(i=>[i]);
-  if(n===4 && (type.cat==='dstraight' || type.cat==='dcurve' || type.cat==='widener')) return [[0, 2], [1, 3]];
+  if(type.cat==='tramturnout') return [[0, 2, 4], [1, 3, 5]];
+  if(type.cat==='tramcross') return [[0, 2], [1, 3], [4, 6], [5, 7]];
+  if(n===4 && (type.cat==='dstraight' || type.cat==='dcurve' || type.cat==='widener' || type.cat==='taper' || isStreetTrack(type))) return [[0, 2], [1, 3]];
   return [all];
 }
-// Turnouts and wyes are power-routing: power fed in at the throat (port 0)
-// reaches both routes, but power fed in at a route's end only flows back to
-// the throat, never across to the other route. (Which way the points are set
-// isn't modelled: the throat is taken to feed whichever route is wanted.)
-const powerRouting = type=>type.cat==='turnout' || type.cat==='wye';
+// Turnouts and wyes are power-routing: power fed in at the throat (each net's
+// first port) reaches both routes, but power fed in at a route's end only flows
+// back to the throat, never across to the other route. (Which way the points
+// are set isn't modelled: the throat is taken to feed whichever route is wanted.)
+const powerRouting = type=>type.cat==='turnout' || type.cat==='wye' || type.cat==='tramturnout';
 // Joints from the nearest feeder, by piece id (Infinity where none reaches).
 // A shortest-path search over each piece's nets, starting at every feeder,
 // that knows which port power came in by on each piece. A
@@ -9937,7 +10584,8 @@ function powerDistances(){
     // would hand power from one route straight back in to feed the other. In
     // at a power-routing piece's throat, out by either route; in at a route's
     // end, out by the throat only.
-    const exits = (powerRouting(type) && entry>0 ? [0] : netsOf(id)[net]).filter(i=>i!==entry);
+    const ports = netsOf(id)[net];
+    const exits = (powerRouting(type) && entry!==ports[0] ? [ports[0]] : ports).filter(i=>i!==entry);
     exits.forEach(portIdx=>{
       const nb = getConnectedNeighbor(id, portIdx);
       if(!nb || !pieces[nb.pieceId]) return;
@@ -10686,7 +11334,7 @@ function buildGestCard(demo){
         drawPiece(g, type, p.ghost
           ? {roadbedFill:loose ? SELECTION_BLUE : ROADBED_FILL_SELECTED, roadbedStroke:SELECTION_BLUE, selected:true, railColor:'#e8eaed', worldRot:p.rot}
           : {roadbedFill:on ? ROADBED_FILL_SELECTED : fill || roadbedFillFor(type, false), roadbedStroke:on ? SELECTION_BLUE : ROADBED_EDGE_COLOR,
-             railColor:type.ties ? TIED_RAIL_COLOR : '#c7cdd6', worldRot:markerFlipped(p.rot) ? 180 : 0,
+             railColor:type.ties || isStreetTrack(type) ? TIED_RAIL_COLOR : '#c7cdd6', worldRot:markerFlipped(p.rot) ? 180 : 0,
              selected:!!type.noRoadbed && on, ties:s.ties, lengthLabel:s.labels==='limited',
              printedFlip:s.labels==='printed' ? markerFlipped(p.rot + partLabelAngle(type)) : null});
         if(n) n.g.replaceWith(g); else layer.appendChild(g);
@@ -10882,7 +11530,7 @@ function partsListRows(ids){
   const rows = new Map();
   byType.forEach((n, typeId)=>{
     if(n===0) return;
-    const t = TT[typeId], key = t.partCode+'|'+(t.catalogNo||'');
+    const t = TT[typeId], key = t.partCode || t.catalogNo ? t.partCode+'|'+(t.catalogNo||'') : t.label; // no codes: its name tells it apart
     const row = rows.get(key) || {qty:0, partCode:t.partCode, catalogNo:t.catalogNo||'', label:t.label};
     row.qty += n; rows.set(key, row);
   });
@@ -11010,7 +11658,7 @@ function packsFor(ids, first = []){
   const code = t=>TT[t].joiner ? TT[t].label : shortCode(TT[t]);
   const listOf = c=>Object.entries(c).map(([t,q])=>`${q}&times; ${code(t)}`).join(', ');
   const rows = [...buy.entries()].sort((a,b)=>a[0].no.localeCompare(b[0].no)).map(([p,n])=>({
-    qty:n, catalogNo:p.no, contents: listOf({...p.contents, ...(p.extras||{})}),
+    qty:n, catalogNo:p.no, contents: listOf(Object.entries(p.extras||{}).reduce((all, [t, q])=>({...all, [t]:(all[t]||0) + q}), p.contents)),
     unconfirmed: !!p.unconfirmed }));
   notSold.forEach(([t,n])=>rows.push({qty:n, catalogNo:'', contents:`${code(t)} (${tr('packs.notSold')})`, unconfirmed:false}));
   const spare = Object.keys(supplied).filter(t=>supplied[t]>(need[t]||0))
@@ -11292,7 +11940,7 @@ function buildInventoryList(){
       row.className = 'inv-item' + (invDraft[t.id] ? ' owned' : '');
       row.dataset.typeId = t.id;
       row.dataset.hay = searchKey(`${t.label} ${paletteLabel(t)} ${t.catalogNo||''} ${t.partCode} ${title}`);
-      row.innerHTML = `<span class="inv-name"><span class="inv-part">${shortCode(t)}</span><span class="code inv-label">${paletteLabel(t)}</span>${t.catalogNo && t.partCode ? `<span class="code">&middot; ${t.catalogNo}</span>` : ''}</span>`
+      row.innerHTML = `<span class="inv-name"><span class="inv-part">${shortCode(t)}</span>${shortCode(t)===t.label ? '' : `<span class="code inv-label">${paletteLabel(t)}</span>`}${t.catalogNo && t.partCode ? `<span class="code">&middot; ${t.catalogNo}</span>` : ''}</span>`
         + `<span class="inv-step"><button type="button" data-d="-1" aria-label="&minus;">&minus;</button>`
         + `<input type="text" inputmode="numeric" value="${invDraft[t.id]||0}" aria-label="${shortCode(t)}">`
         + `<button type="button" data-d="1" aria-label="+">+</button></span>`;
@@ -11808,7 +12456,10 @@ function copySelection(){
   ids.forEach(id=>getPorts(pieceType(id)).forEach((_, idx)=>{
     const nb = getConnectedNeighbor(id, idx);
     const kind = joiners[connKey(id, idx)] || (nb && !indexOf.has(nb.pieceId) && joiners[connKey(nb.pieceId, nb.portIdx)]);
-    if(kind && !(kind==='IJ' && !(nb && indexOf.has(nb.pieceId)))) clipJoiners.push([indexOf.get(id), idx, kind]);
+    if(kind && !(kind==='IJ' && !(nb && indexOf.has(nb.pieceId)))){
+      const held = joiners[connKey(id, idx)] ? connKey(id, idx) : connKey(nb.pieceId, nb.portIdx);
+      clipJoiners.push([indexOf.get(id), idx, kind, !!joinerFlip[held]]);
+    }
   }));
   clipboard = {pieces:clipPieces, connections:clipConnections, joiners:clipJoiners, box:null};
   pasteGeneration = 0;
@@ -11840,7 +12491,10 @@ function pasteClipboard(){
     clipboard.connections.forEach(([iA,idxA,iB,idxB])=>{
       connectPorts({sourcePieceId:newIds[iA], sourcePortIdx:idxA, pieceId:newIds[iB], portIdx:idxB});
     });
-    (clipboard.joiners||[]).forEach(([i, idx, kind])=>{ joiners[connKey(newIds[i], idx)] = kind; });
+    (clipboard.joiners||[]).forEach(([i, idx, kind, flip])=>{
+      joiners[connKey(newIds[i], idx)] = kind;
+      if(flip) joinerFlip[connKey(newIds[i], idx)] = true;
+    });
   }
   let newBoxId = null;
   if(hasBox){
@@ -12869,6 +13523,7 @@ function serializeLayout(){
     connections,
     tableBoxes,
     joiners,
+    joinerFlip,
   }, null, 2);
 }
 function flashSaveLoadMsg(text, isError){
@@ -13024,7 +13679,7 @@ function applyLayoutData(data){
   }
   // UniJoiners: on a loaded piece's end, one per joint. Saves before the
   // insulated kind list the ends alone, all Terminal UniJoiners.
-  const loadedJoiners = {};
+  const loadedJoiners = {}, loadedJoinerFlip = {};
   const savedJoiners = Array.isArray(data.joiners) ? data.joiners.map(k=>[k, 'TJ'])
     : data.joiners && typeof data.joiners==='object' ? Object.entries(data.joiners) : [];
   savedJoiners.forEach(([k, kind])=>{
@@ -13032,12 +13687,16 @@ function applyLayoutData(data){
     if(!a || !JOINER_TYPES.some(t=>t.id===kind)) return;
     const key = connKey(a.pieceId, a.portIdx), other = loadedConnections[key];
     if(kind==='IJ' && !other) return; // an IJ needs its joint
-    if(!loadedJoiners[key] && !(other && loadedJoiners[other])) loadedJoiners[key] = kind;
+    if(!loadedJoiners[key] && !(other && loadedJoiners[other])){
+      loadedJoiners[key] = kind;
+      if(kind==='TJ' && data.joinerFlip && data.joinerFlip[k] === true) loadedJoinerFlip[key] = true;
+    }
   });
   pieces = loadedPieces;
   connections = loadedConnections;
   tableBoxes = loadedTableBoxes;
   joiners = loadedJoiners;
+  joinerFlip = loadedJoinerFlip;
   nextId = Math.max(Number.isFinite(data.nextId)?data.nextId:0, maxIdNum+1, maxBoxIdNum+1);
   clearTransientState();
   undoStack = [];
