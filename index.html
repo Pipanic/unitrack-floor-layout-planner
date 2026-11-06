@@ -825,6 +825,7 @@ const STRINGS = {
         <div class="help-row"><span class="keys">Hover over a piece</span><span class="desc">See its count.</span></div>
         <div class="help-row"><span class="keys">Red at … joints</span><span class="desc">Set how many joints from a feeder count as too far.</span></div>
         <div class="help-row"><span class="keys">Misc. → Terminal UniJoiner (24-818)</span><span class="desc">A feeder that fits in a joint instead of a feeder track, for where there's no room for one. Drag it onto any track end, open or joined, and it sits on whichever side of the track you drop it (on double track, always the outer side); with a green end selected, clicking it fits it there. One per joint. Power View counts both pieces at that joint as fed; on double track it feeds only the track it's on.</span></div>
+        <div class="help-row"><span class="keys">Unitram → Unitram Feeder (44-847)</span><span class="desc">The same as the Terminal UniJoiner, but it fits only Unitram track, which includes the conversion track. The Terminal and Insulated UniJoiners fit Unitram track too.</span></div>
         <div class="help-row"><span class="keys">Misc. → Insulated UniJoiner (24-816)</span><span class="desc">Stops power crossing a joint, to split the layout into separately fed sections. Drag it onto a joint between two pieces (not an open end); it sits across the track as a crossed-out ⚡. If either piece is dragged away, it's removed with the joint. Each counts as a pair, one per joint, so a pack of 20 fits ten joints; on double track it insulates only the track it's on. Power View stops counting at it.</span></div>
         <div class="help-row"><span class="keys">Drag a UniJoiner's ⚡</span><span class="desc">Move it to another joint or track end, or to the other side of the same one. Click it, then <kbd>Delete</kbd>, to remove it. If you drag away one of the two pieces at a Terminal UniJoiner's joint, it stays with the piece you left behind.</span></div>
         <p>Track is blue at a feeder and turns red as it nears 20 joints; past that, a feeder nearer that spot would help. For comparison, KATO's M2 set runs fine on its one feeder with its farthest track about 11 joints away. If your track needs feeders closer than that, or copes with them further apart, set your own number in the box under the button ("Red at … joints"); it's remembered in this browser. Joints are counted along the track either way round, so a loop fed at one point is fed from both sides. Leaving a turnout counts as 1.3 joints, for its internal contacts. KATO's turnouts are power-routing: a feeder before a turnout powers both of its routes, but a feeder on one route only powers back to the start of the turnout, so the other route shows as not powered unless something else feeds it. Dark track has no feeder at all. Double track is two separate tracks, so each track is coloured by its own distance, split down the middle of the piece; and the double crossover (WX310) passes no power across the insulated gap in its centre, which cuts both tracks and both diagonals, so each of its four quarters is coloured by its own distance from a feeder. It's a guide, not a voltage reading.</p>
@@ -1153,10 +1154,11 @@ const STRINGS = {
     'hover.p6': 'Drag onto the layout to place the whole set, or click to drop it in the middle of the view. Scroll while dragging rotates it 15\u00b0 per notch.',
     'hover.p7': 'Click to start from this layout. It lands in the middle of the view, and the view zooms to fit it.',
     'hover.p10': 'Drag onto a track end or a joint to feed power in there. With a green track end selected, a click fits it there.',
-    'hover.j1': 'A Terminal UniJoiner: power enters the track at this joint. Drag it to another joint or track end, or click it and press Delete to remove it.',
+    'hover.j1': 'A feeder: power enters the track at this joint. Drag it to another joint or track end, or click it and press Delete to remove it.',
     'hover.p11': 'Drag onto a joint to stop power crossing it. One counts per joint: a pack of 20 fits ten.',
     'hint.insulatedHow': 'Drag the Insulated UniJoiner onto a joint between two pieces.',
     'hover.j2': 'An Insulated UniJoiner: power doesn\u2019t cross this joint. Drag it to another joint or track end, or click it and press Delete to remove it.',
+    'hint.feederWrongTrack': name => `The ${name} only fits Unitram track. On Unitrack, use the Terminal UniJoiner.`,
     'hint.joinerHow': name => `Drag the ${name} onto a track end or a joint, or select a green track end first.`,
     'hover.p9': 'Short animations of the drag, scroll and click gestures that aren’t obvious at first.',
     'hover.a4': 'Drop on the layout to place the whole set. Scroll rotates it 15\u00b0 per notch. Drop it back on the panel to cancel.',
@@ -1203,6 +1205,7 @@ const STRINGS = {
     'theme.colourblind': 'Colourblind Safe',
 
     'catalog.TJ.label': 'Terminal UniJoiner',
+    'catalog.UF.label': 'Unitram Feeder',
     'catalog.IJ.label': 'Insulated UniJoiner (pair)',
     'catalog.S248.label': 'Straight 248mm',
     'catalog.S186.label': 'Straight 186mm',
@@ -1788,10 +1791,14 @@ const TT_BY_ID = Object.fromEntries(TRACK_TYPES.map(t=>[t.id,t]));
 // TRACK_TYPES, so no palette group, geometry or piece drawing expects them.
 // An IJ counts per joint: it takes a pair, so a pack of 20 fits ten. Neither
 // has an official part code, so `shortCode` stands in the catalogue number.
-const TERMINAL_JOINER = {id:'TJ', cat:'joiner', joiner:true, catalogNo:'24-818', partCode:''};
+// The Unitram Feeder (44-847) looks and works as the Terminal UniJoiner does, but
+// fits only Unitram track (feederFitsTrack); the UniJoiners fit either kind.
+const TERMINAL_JOINER = {id:'TJ', cat:'joiner', joiner:true, feeder:true, catalogNo:'24-818', partCode:''};
+const UNITRAM_FEEDER = {id:'UF', cat:'joiner', joiner:true, feeder:true, unitram:true, catalogNo:'44-847', partCode:''};
 const INSULATED_JOINER = {id:'IJ', cat:'joiner', joiner:true, insulated:true, catalogNo:'24-816', partCode:''};
-const JOINER_TYPES = [TERMINAL_JOINER, INSULATED_JOINER];
-const shortCode = t=>t.partCode || t.catalogNo || t.label; // a piece with no codes goes by its name
+const JOINER_TYPES = [TERMINAL_JOINER, INSULATED_JOINER, UNITRAM_FEEDER];
+// A piece with no codes goes by its name, and so does every road plate.
+const shortCode = t=>t.partCode || (!t.roadPlate && t.catalogNo) || t.label;
 JOINER_TYPES.forEach(t=>{ TT_BY_ID[t.id] = t; });
 function expansionVariant(id){
   const m = typeof id==='string' && /^(.+)@(\d+(?:\.\d)?)$/.exec(id);
@@ -1849,6 +1856,7 @@ const PRODUCTS = [
   {no:'20-040', contents:{S62:4}},
   {no:'20-041', contents:{S62F:1}},
   {no:'24-818', contents:{TJ:1}},
+  {no:'44-847', contents:{UF:1}},
   {no:'24-816', contents:{IJ:10}}, // 20 joiners: a pair per joint
   {no:'20-045', contents:{S62C:2}},
   {no:'20-015', contents:{S186AP:2}},
@@ -3038,7 +3046,7 @@ function disconnectPort(id, idx){
   // UniJoiner stays with the other piece: every caller names the piece
   // that's moving, changing or going first.
   if(joiners[fitted]==='IJ'){ delete joiners[fitted]; if(selectedJoiner===fitted) selectedJoiner = null; }
-  else if(fitted===connKey(id, idx)) moveJoiner(fitted, connKey(other.pieceId, other.portIdx));
+  else if(fitted===connKey(id, idx) && feederFitsTrack(joiners[fitted], pieceType(other.pieceId))) moveJoiner(fitted, connKey(other.pieceId, other.portIdx));
 }
 
 // Spawn a `typeId` piece attached by its port `sourcePortIdx` onto the open
@@ -4428,15 +4436,35 @@ function partLabelOutline(fontSize){
 // `transform` moves it. Sized to fit between the rails: the smaller of a
 // gauge-based cap and `room` over the label's approximate width (~0.62em a
 // character).
+// A long name (a road plate's) goes on two lines, split at the space nearest its
+// middle; a part code has no spaces, so it stays whole.
+const PART_LABEL_WRAP_CHARS = 18;
+function partLabelLines(text){
+  if(text.length<PART_LABEL_WRAP_CHARS || !text.includes(' ')) return [text];
+  let at = -1;
+  for(let i=0;i<text.length;i++) if(text[i]===' ' && (at<0 || Math.abs(i - text.length/2)<Math.abs(at - text.length/2))) at = i;
+  return [text.slice(0, at), text.slice(at + 1)];
+}
+const longestLine = lines=>Math.max(...lines.map(l=>l.length));
+// Fills a label's <text> with its lines, centred about its y.
+function setPartLabelText(t, lines, x){
+  if(lines.length===1){ t.textContent = lines[0]; return; }
+  lines.forEach((line, i)=>{
+    const span = el('tspan', {x, dy:i ? '1.1em' : '-0.55em'});
+    span.textContent = line;
+    t.appendChild(span);
+  });
+}
 function appendPartLabel(g, label, room, x, transform, y = 0){
-  const fontSize = Math.max(2, Math.min(GAUGE*0.82, (room*0.88)/(label.length*0.62)));
+  const lines = partLabelLines(label);
+  const fontSize = Math.max(2, Math.min(GAUGE*0.82, (room*0.88)/(longestLine(lines)*0.62)));
   const t = el('text',{x, y, 'text-anchor':'middle', 'dominant-baseline':'central',
     ...(transform ? {transform} : {}),
     fill: PART_LABEL_COLOR, 'font-size':fontSize.toFixed(2), 'font-weight':'700',
     ...partLabelOutline(fontSize),
     'font-family':UI_FONT,
     style:'pointer-events:none;user-select:none;'});
-  t.textContent = label;
+  setPartLabelText(t, lines, x);
   g.appendChild(t);
 }
 // Part-label mode "limited": the label on pieces nearly identical to a
@@ -4729,15 +4757,20 @@ function tramColumns(spacing){
   return {out, seamOut, mid:railIn - (seamOut - railOut)};
 }
 // Toggle Detail hides it all, down to the bare roadbed (roadbedFillFor) and rails.
+// Power View keeps the plain edges with the detail off, so its colour stays on
+// the roadbed and tracks rather than the whole plate.
 function appendStreetSurface(g, type, style, shown = tiesView.shown){
-  if(!shown) return;
-  if(type.cat==='tramcurve' || type.cat==='tramturnout') appendCurvedStreetSurface(g, type, style);
-  if(type.cat==='tramcross') appendCrossingStreetSurface(g, type, style);
+  if(!shown && !style.powerView) return;
+  const edgesOnly = !shown;
+  if(type.cat==='tramcurve' || type.cat==='tramturnout') appendCurvedStreetSurface(g, type, style, edgesOnly);
+  if(type.cat==='tramcross') appendCrossingStreetSurface(g, type, style, edgesOnly);
   if(type.cat==='roadplate') (type.centerPlate ? appendCenterPlateSurface : type.centerlinePlate ? appendCenterlinePlateSurface : type.length && !type.cornerPlate ? appendStraightRoadPlateSurface : appendRoadPlateSurface)(g, style, type);
   if(type.cat!=='tram') return;
   const L = type.length, H = TRAM_HALF, K = TRAM_KERB_W, edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
   [-H, H - K].forEach(y=>g.appendChild(el('rect', {x:0, y, width:L, height:K, fill:edge})));
+  if(edgesOnly) return;
   appendStraightStreetLines(g, L, type.spacing);
+  appendRailBed(g, type);
 }
 // The road plate's printing, measured off KATO's pack photo: a kerbed pavement
 // round a car park, with its tactile line and parking bays, and the road beyond
@@ -4854,17 +4887,19 @@ function appendRoadPlateSurface(g, style, type){
 // middle of the square) is repeated for every turn and mirror.
 const TRAM_CROSS_JOINTS = [[0, 0, 8, 0], [0, -21, 0, -8], [1.8, -31, 1.8, -21], [0, -21, 17, -21], [21, -21, 21, -17]];
 const TRAM_CROSS_DOTS = [[0, -25], [24, -24]];
-function appendCrossingStreetSurface(g, type, style){
+function appendCrossingStreetSurface(g, type, style, edgesOnly){
   const m = type.length/2, K = TRAM_KERB_W, edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
   const turns = [-1, 1].flatMap(a=>[-1, 1].flatMap(b=>[(x, y)=>[m + a*x, b*y], (x, y)=>[m + a*y, b*x]]));
   let corners = '';
   [-1, 1].forEach(a=>[-1, 1].forEach(b=>{ corners += `M${m + a*m} ${b*m}H${m + a*(m - K)}L${m + a*m} ${b*(m - K)}Z`; }));
   g.appendChild(el('path', {d:corners, fill:edge}));
+  if(edgesOnly) return;
   let d = '';
   TRAM_CROSS_JOINTS.forEach(([x0, y0, x1, y1])=>turns.forEach(t=>{ d += `M${t(x0, y0)}L${t(x1, y1)}`; }));
   const dots = new Set(TRAM_CROSS_DOTS.flatMap(([x, y])=>turns.map(t=>`M${t(x, y)}h0`)));
   g.appendChild(el('path', {d, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}));
   g.appendChild(el('path', {d:[...dots].join(''), fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.7, 'stroke-linecap':'round'}));
+  appendRailBed(g, type);
 }
 function appendStraightStreetLines(g, L, spacing){
   const {out, seamOut, mid} = tramColumns(spacing), n = Math.round(L/TRAM_PANEL), p = L/n;
@@ -4888,7 +4923,37 @@ function appendStraightStreetLines(g, L, spacing){
 // showing only outside the straight's paving.
 const TWR_MARK_COLOR = '#e6e9ee';
 const TWR_PANELS_OUTER = 21, TWR_PANELS_INNER = 19, TWR_DOTS_MIDDLE = 24;
-function appendCurvedStreetSurface(g, type, style){
+// Street track's rail bed, from KATO's photo: a darker strip under every rail, so
+// on a turnout they merge into one where the rails draw together and the paving
+// shows as islands between them.
+const TRAM_BED_COLOR = '#7c828c', TRAM_BED_W = 2.8;
+function appendRailBed(g, type){
+  const d = pieceGraphics(type).flatMap(seg=>seg.rails).join('');
+  g.appendChild(el('path', {d, fill:'none', stroke:TRAM_BED_COLOR, 'stroke-width':TRAM_BED_W}));
+}
+// A street turnout's trackwork over that: a black frog where a diverging rail
+// crosses a straight one, and a tie bar across each track at its points.
+const TWEP_FROG_COLOR = '#1d2025', TWEP_TIE_COLOR = '#646a74';
+function appendTurnoutTrackbed(g, h, sign){
+  const tracks = [-h, h], offs = [-RAIL_OFF, RAIL_OFF];
+  const straightRails = tracks.flatMap(v0=>offs.map(o=>v0 + o));
+  const arcs = tracks.flatMap(v0=>offs.map(d=>twrArc(v0, d)));
+  const y = v=>sign*v;
+  let frogs = '';
+  arcs.forEach(a=>straightRails.forEach(v=>{
+    if(v<=a.vc - a.r + 1e-6) return; // only ahead of where this rail starts
+    const t = Math.acos((a.vc - v)/a.r);
+    if(t>Math.PI/4) return;
+    const u = a.c + a.r*Math.sin(t), du = 2.5*Math.cos(t), dv = 2.5*Math.sin(t);
+    // One block along each rail, the two making one shape.
+    frogs += `M${u - du} ${y(v - dv)}L${u + du} ${y(v + dv)}M${u - 2.5} ${y(v)}H${u + 2.5}`;
+  }));
+  g.appendChild(el('path', {d:frogs, fill:'none', stroke:TWEP_FROG_COLOR, 'stroke-width':3.5}));
+  // The bars sit just ahead of each track's own arc starting.
+  const ties = tracks.map(v0=>{ const u = twrArc(v0).c + 9; return `M${u} ${y(v0 - RAIL_OFF)}L${u} ${y(v0 + RAIL_OFF)}`; }).join('');
+  g.appendChild(el('path', {d:ties, fill:'none', stroke:TWEP_TIE_COLOR, 'stroke-width':3}));
+}
+function appendCurvedStreetSurface(g, type, style, edgesOnly){
   const sign = twrSign(type), h = type.spacing/2, H = TWR_PLATE_HALF, L = TWR_PLATE_LEN, turnout = type.cat==='tramturnout';
   const {out, seamOut, mid} = tramColumns(type.spacing);
   const edge = style.selected ? ROADBED_FILL_SELECTED : ROADBED_FILL_DEFAULT;
@@ -4900,10 +4965,11 @@ function appendCurvedStreetSurface(g, type, style){
   if(turnout){
     g.appendChild(el('path', {fill:edge, d:twrPlateD(sign)}));
     [straightPave, `${twrArcD(paveOut, sign)}${twrArcD(paveIn, sign, true)}Z`].forEach(pave=>g.appendChild(el('path', {fill:style.roadbedFill, d:pave})));
-    appendStraightStreetLines(g, L, type.spacing);
+    if(!edgesOnly) appendStraightStreetLines(g, L, type.spacing);
   } else g.appendChild(el('path', {fill:edge, d:
     `M0 ${y(-H)}L${L} ${y(-H)}L${L} ${y(H)}L${paveOutEnd.u} ${y(paveOutEnd.v)}${twrArcD(paveOut, sign, true)}Z`
     + `${twrArcD(paveIn, sign)}${twrArcD(TWR_PLATE_INNER, sign, true)}Z`}));
+  if(edgesOnly) return;
   let d = '', dots = '';
   [-h, h].forEach(v0=>{
     const seam = arcAt(v0, seamOut), inner = arcAt(v0, mid), n = v0<0 ? TWR_PANELS_OUTER : TWR_PANELS_INNER, p = twrTrackLen(twrArc(v0))/n;
@@ -4929,6 +4995,32 @@ function appendCurvedStreetSurface(g, type, style){
   lines.appendChild(el('path', {d, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}));
   lines.appendChild(el('path', {d:dots, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.7, 'stroke-linecap':'round'}));
   g.appendChild(turnout ? clipTo(lines, null, [straightPave]) : lines);
+  if(turnout){
+    // The paving beside each route's rails merges as the rail bed does: one
+    // shape over the lines beneath, its seam only round the outside of the
+    // union, and each route's joints only where no other route's paving lies.
+    const bandOf = route=>route.arc
+      ? `${twrArcD(arcAt(route.v0, mid), sign)}${twrArcD(arcAt(route.v0, seamOut), sign, true)}Z`
+      : `M0 ${y(Math.sign(route.v0)*mid)}H${L}V${y(Math.sign(route.v0)*seamOut)}H0Z`;
+    const routes = [-h, h].flatMap(v0=>[{v0, arc:false}, {v0, arc:true}]), bands = routes.map(bandOf);
+    const merged = el('g', {});
+    merged.appendChild(el('path', {d:bands.join(''), fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.6}));
+    bands.forEach(d=>merged.appendChild(el('path', {d, fill:style.roadbedFill})));
+    g.appendChild(clipTo(merged, twrPlateD(sign)));
+    routes.forEach((route, i)=>{
+      let joints = '';
+      if(route.arc){
+        const a0 = arcAt(route.v0, mid), a1 = arcAt(route.v0, seamOut), n = route.v0<0 ? TWR_PANELS_OUTER : TWR_PANELS_INNER, p = twrTrackLen(twrArc(route.v0))/n;
+        for(let k=1;k<n;k++) joints += line(twrPoint(a0, k*p), twrPoint(a1, k*p));
+      } else {
+        const n = Math.round(L/TRAM_PANEL), p = L/n, s = Math.sign(route.v0);
+        for(let k=1;k<n;k++) joints += `M${k*p} ${y(s*mid)}V${y(s*seamOut)}`;
+      }
+      g.appendChild(clipTo(el('path', {d:joints, fill:'none', stroke:TRAM_SEAM_COLOR, 'stroke-width':0.3}), null, bands.filter((_, j)=>j!==i)));
+    });
+  }
+  appendRailBed(g, type);
+  if(turnout) appendTurnoutTrackbed(g, h, sign);
   // Road markings: an edge line, two stripes, and two bars from the edge to the
   // paving, as [u0, u1, v0, v1] (v1 null: up to the paving), level with the road
   // plates' crossing and cycle lane so they carry on across a join. On a turnout the
@@ -6199,6 +6291,11 @@ function drawPiece(g, type, style){
     }
   }
   appendStreetSurface(g, type, style, style.ties);
+  // Its outline again, over the surface: printing up to the edge would cover the
+  // inner half of it, and which half of a join's line survives would depend on
+  // which piece was drawn last, so the same join could sit a little to either side.
+  if(isStreetTrack(type) || type.roadPlate) g.appendChild(el('path', {d:segs[0].roadbed, fill:'none', stroke:style.roadbedStroke, 'stroke-width':baseEdgeW,
+    ...(style.nonScaling ? {'vector-effect':'non-scaling-stroke'} : {})}));
   appendViaductDeck(g, type);
   // Before the chords, which sit over it.
   appendTurntableWing(g, type, style);
@@ -6943,6 +7040,7 @@ function pieceLook(piece, type, isSelected, frame){
     portElev: piece.portElev,
     flipped: markerFlipped(piece.rot), // all drawPiece reads of the rotation: labels read upright
     ties: tiesView.shown,
+    powerView: isStreetTrack(type) && !!frame.powerById, // keeps its plate's edges plain, so the colour is the track's
     lengthLabel: partLabelMode==='limited', // Printed and All draw their own labels
     // Printed: whether the label turns 180° to read upright; null when off.
     printedFlip: partLabelMode==='printed' ? markerFlipped(piece.rot + partLabelAngle(type)) : null,
@@ -6968,7 +7066,7 @@ function buildPieceDrawing(id, spec){
   if(spec.sloped) buildSlopeFillGradient(asPiece, type, defs, spec.slopeRange);
   drawPiece(g, type, {roadbedFill:'var(--rb-fill)', roadbedStroke:'var(--rb-stroke)',
     railColor: type.ties || isStreetTrack(type) ? TIED_RAIL_COLOR : '#c7cdd6', worldRot: spec.flipped ? 180 : 0,
-    selected: spec.tint, ties: spec.ties, lengthLabel: spec.lengthLabel, printedFlip: spec.printedFlip});
+    selected: spec.tint, ties: spec.ties, powerView: spec.powerView, lengthLabel: spec.lengthLabel, printedFlip: spec.printedFlip});
   if(spec.fadeLevel===null) g.setAttribute('opacity', 1);
   else applyElevationOpacity(g, asPiece, type, defs, spec.fadeLevel);
   return wrap;
@@ -7476,7 +7574,7 @@ const PART_LABEL_CHAR_EM = 0.62; // approximate bold character width
 // turntable's pit) uses its length.
 function partLabelReach(type){
   const P = getPorts(type);
-  if(!P.length) return type.length || 40;
+  if(!P.length) return type.length || (type.roadPlate ? TWR_PLATE_LEN : 40);
   const t = deg2rad(P[0].heading + 180), ux = Math.cos(t), uy = Math.sin(t);
   const reach = Math.max(...P.map(p=>(p.x-P[0].x)*ux + (p.y-P[0].y)*uy));
   return reach >= 1 ? reach : (type.length || 40);
@@ -7531,12 +7629,12 @@ function drawPartLabels(frame){
     const piece = pieces[id], type = piece && TT[piece.typeId];
     const text = type && shortCode(type);
     if(!text) return;
-    const len = partLabelReach(type);
-    const px = Math.min(PART_LABEL_PX*Math.max(1, s), len*s*0.85/(text.length*PART_LABEL_CHAR_EM));
+    const len = partLabelReach(type), lines = partLabelLines(text), chars = longestLine(lines);
+    const px = Math.min(PART_LABEL_PX*Math.max(1, s), len*s*0.85/(chars*PART_LABEL_CHAR_EM));
     if(px < PART_LABEL_MIN_PX) return;
     const k = px/10/s; // drawn at 10 units and scaled, since browsers round tiny font sizes
-    cands.push({text, len, spots:partLabelSpots(type).map(q=>worldPoint(piece, q)), k,
-      hw:(text.length*PART_LABEL_CHAR_EM*5 + 2)*k, hh:7*k}); // half-extents, outline included
+    cands.push({lines, len, spots:partLabelSpots(type).map(q=>worldPoint(piece, q)), k,
+      hw:(chars*PART_LABEL_CHAR_EM*5 + 2)*k, hh:7*lines.length*k}); // half-extents, outline included
   });
   cands.sort((a, b)=>b.len-a.len);
   const placed = [];
@@ -7549,7 +7647,7 @@ function drawPartLabels(frame){
       fill:'#ffffff', stroke:'#000000', 'stroke-width':3, 'stroke-linejoin':'round', 'paint-order':'stroke',
       'font-size':10, 'font-weight':'700', 'font-family':UI_FONT,
       style:'pointer-events:none;'});
-    t.textContent = c.text;
+    setPartLabelText(t, c.lines, 0);
     frame.world.appendChild(t);
   });
 }
@@ -8104,7 +8202,8 @@ function renderPalette(){
   const miscGroup = createPaletteGroupShell('misc', tr('palette.group.misc'));
   miscGroup.appendChild(createTabletopButton());
   miscGroup.appendChild(createTextLabelButton());
-  JOINER_TYPES.forEach(t=>miscGroup.appendChild(createJoinerButton(t)));
+  JOINER_TYPES.filter(t=>!t.unitram).forEach(t=>miscGroup.appendChild(createJoinerButton(t)));
+  byKey.unitram.appendChild(createJoinerButton(UNITRAM_FEEDER));
   TRACK_TYPES.filter(t=>t.misc).forEach(t=> miscGroup.appendChild(createPaletteButton(t)) );
   el_.appendChild(miscGroup);
 
@@ -9414,7 +9513,7 @@ function pruneJoiners(){
     const end = joinerEnd(k);
     if(!end || (joiners[k]==='IJ' && isOpen(end.pieceId, end.portIdx))) delete joiners[k];
   });
-  Object.keys(joinerFlip).forEach(k=>{ if(joiners[k]!=='TJ') delete joinerFlip[k]; });
+  Object.keys(joinerFlip).forEach(k=>{ if(!isFeeder(joiners[k])) delete joinerFlip[k]; });
   if(selectedJoiner && !joiners[selectedJoiner]) selectedJoiner = null;
 }
 // The joiner at this end's joint, on either side, or null.
@@ -9494,18 +9593,23 @@ function appendJoinerBolt(g, c, selected, typeId, angle=0){
 }
 // A whole joiner at a pose: a TJ's wires and bolt, an IJ's crossed bolt.
 function appendJoiner(g, pose, typeId, selected){
-  if(typeId==='TJ') appendJoinerWires(g, pose);
+  if(isFeeder(typeId)) appendJoinerWires(g, pose);
   appendJoinerBolt(g, joinerBoltCentre(pose, typeId), selected, typeId, joinerAngle(pose, typeId));
 }
 // The end a joiner held at (x, y) would go on: the nearest end within
 // SNAP_RADIUS whose joint has no joiner (but the one being moved). An IJ
 // goes only in a joint: on an open end it would do nothing, and it would
 // cover the green end.
+const isFeeder = typeId=>!!TT[typeId].feeder;
+// The Unitram Feeder fits only Unitram track, which includes the conversion track.
+function feederFitsTrack(typeId, trackType){
+  return !TT[typeId].unitram || isStreetTrack(trackType) || trackType.cat==='taper';
+}
 function joinerTargetAt(x, y, from, typeId){
   let best = null, bestD = SNAP_RADIUS;
   for(const id in pieces){
     const piece = pieces[id];
-    if(pieceType(id).platform) continue; // a UniJoiner is for track
+    if(pieceType(id).platform || !feederFitsTrack(typeId, pieceType(id))) continue; // a UniJoiner is for track
     getPorts(pieceType(id)).forEach((port, idx)=>{
       const w = worldPoint(piece, port), d = Math.hypot(w.x-x, w.y-y);
       if(d >= bestD) return;
@@ -9520,7 +9624,7 @@ function joinerTargetAt(x, y, from, typeId){
 function drawJoinerWires(frame){
   const moving = joinerDrag && joinerDrag.moved ? joinerDrag.from : null;
   Object.keys(joiners).forEach(k=>{
-    const end = joiners[k]==='TJ' && k!==moving && joinerEnd(k);
+    const end = isFeeder(joiners[k]) && k!==moving && joinerEnd(k);
     if(end) appendJoinerWires(frame.under, joinerPose(end.pieceId, end.portIdx, joinerFlip[k]));
   });
 }
@@ -9577,7 +9681,7 @@ window.addEventListener('mousemove', e=>{
     joinerDrag.target = joinerTargetAt(x, y, joinerDrag.from, joinerDrag.typeId);
     // A TJ goes on the side of the track the pointer is on.
     const end = joinerDrag.target && joinerEnd(joinerDrag.target);
-    if(end && joinerDrag.typeId==='TJ'){
+    if(end && isFeeder(joinerDrag.typeId)){
       const pose = joinerPose(end.pieceId, end.portIdx);
       joinerDrag.flip = pose.free && (x-pose.x)*pose.nx + (y-pose.y)*pose.ny < 0;
     }
@@ -9595,7 +9699,8 @@ window.addEventListener('mouseup', ()=>{
   if(!moved){
     if(from) setSelection({joiner:from});
     // A palette click fits a TJ to the selected open end.
-    else if(typeId==='TJ' && selectedPort && !pieceType(selectedPort.pieceId).platform && !joinerAt(selectedPort.pieceId, selectedPort.portIdx)){
+    else if(isFeeder(typeId) && selectedPort && !feederFitsTrack(typeId, pieceType(selectedPort.pieceId))) flashHint(tr('hint.feederWrongTrack', TT[typeId].label));
+    else if(isFeeder(typeId) && selectedPort && !pieceType(selectedPort.pieceId).platform && !joinerAt(selectedPort.pieceId, selectedPort.portIdx)){
       pushHistory();
       const k = connKey(selectedPort.pieceId, selectedPort.portIdx);
       joiners[k] = typeId;
@@ -9605,7 +9710,7 @@ window.addEventListener('mouseup', ()=>{
     pushHistory();
     if(from){ delete joiners[from]; delete joinerFlip[from]; }
     joiners[target] = typeId;
-    if(typeId==='TJ' && flip) joinerFlip[target] = true;
+    if(isFeeder(typeId) && flip) joinerFlip[target] = true;
     setSelection({joiner:target});
   }
   invalidate();
@@ -9614,12 +9719,12 @@ window.addEventListener('mouseup', ()=>{
 function buildJoinerIcon(t, W=PALETTE_ICON_W, H=PALETTE_ICON_H){
   // A TJ: the track's top edge to the bolt's foot; an IJ: the track. At the
   // icon box's proportions.
-  const svg = el('svg', {class:'pbtn-icon', viewBox:t.id==='TJ' ? '-32 -14 64 43' : '-28 -18 56 37', width:W, height:H});
+  const svg = el('svg', {class:'pbtn-icon', viewBox:t.feeder ? '-32 -14 64 43' : '-28 -18 56 37', width:W, height:H});
   svg.appendChild(el('rect', {x:-30, y:-ROADBED_HALF, width:60, height:ROADBED_HALF*2, fill:'var(--ground)', stroke:'#3b4049'}));
   [-RAIL_OFF, RAIL_OFF].forEach(y=>svg.appendChild(el('line', {x1:-30, y1:y, x2:30, y2:y, stroke:'#e8eaed', 'stroke-width':1.3})));
   svg.appendChild(el('line', {x1:0, y1:-ROADBED_HALF, x2:0, y2:ROADBED_HALF, stroke:'#3b4049', 'stroke-width':1}));
   const pose = {x:0, y:0, ax:1, ay:0, nx:0, ny:1};
-  if(t.id==='TJ'){
+  if(t.feeder){
     const wires = el('g', {});
     appendJoinerWires(wires, pose);
     svg.insertBefore(wires, svg.firstChild);
@@ -9633,7 +9738,7 @@ function createJoinerButton(t){
   b.dataset.typeId = t.id; // Limited Mode's stock badge
   b.dataset.hint = t.id==='IJ' ? 'p11' : 'p10';
   b.dataset.searchHay = t.id==='IJ' ? 'insulated unijoiner joiner insulator gap block isolate power 24816'
-    : 'terminal unijoiner joiner feeder power wire 24818';
+    : t.unitram ? 'unitram feeder joiner power wire 44847' : 'terminal unijoiner joiner feeder power wire 24818';
   const textWrap = document.createElement('span');
   textWrap.className = 'pbtn-text';
   textWrap.innerHTML = `${t.label}<span class="code">${formatPieceCode(t)}</span>`;
@@ -10568,7 +10673,7 @@ function powerDistances(){
   // nought, entered by that end, so a turnout fed at a route's end still
   // reaches only its throat.
   for(const k in joiners){
-    const end = joiners[k]==='TJ' && joinerEnd(k);
+    const end = isFeeder(joiners[k]) && joinerEnd(k);
     if(!end) continue;
     const nb = getConnectedNeighbor(end.pieceId, end.portIdx);
     [end, ...(nb && pieces[nb.pieceId] ? [nb] : [])].forEach(({pieceId, portIdx})=>{
@@ -10624,6 +10729,21 @@ function powerSplitFill(piece, type, frame){
     const P = getPorts(type), L = type.length, H = 100; // H: past the roadbed's edge
     const pat = el('pattern',{id, patternUnits:'userSpaceOnUse', x:0, y:-H, width:L, height:2*H});
     P.forEach((p, i)=>pat.appendChild(el('rect',{x:p.x < L/2 ? 0 : L/2, y:p.y < 0 ? 0 : H, width:L/2, height:H, fill:powerColor(ds[i])})));
+    frame.defs.appendChild(pat);
+    return `url(#${id})`;
+  }
+  if(type.cat==='tramcurve'){
+    // The tracks have their own centres, so the split follows the centreline
+    // between them: a tile of the inner track's colour, and the outer's beyond
+    // the centreline's straight run and arc.
+    const sign = twrSign(type), spine = twrArc(0), e = twrEnd(spine), X = -50, Y = -400, far = 200*Math.SQRT1_2;
+    const [outer, inner] = sign>0 ? ds : [ds[1], ds[0]];
+    const pat = el('pattern', {id, patternUnits:'userSpaceOnUse', x:X, y:Y, width:500, height:800});
+    const tile = el('g', {transform:`translate(${-X} ${-Y})`});
+    tile.appendChild(el('rect', {x:X, y:Y, width:500, height:800, fill:powerColor(inner)}));
+    tile.appendChild(el('path', {fill:powerColor(outer), d:
+      `M${X} 0${twrArcD(spine, sign).replace('M0 0', 'L0 0')}L${e.u + far} ${sign*(e.v + far)}L${X + 499} ${-sign*399}L${X} ${-sign*399}Z`}));
+    pat.appendChild(tile);
     frame.defs.appendChild(pat);
     return `url(#${id})`;
   }
@@ -11940,7 +12060,7 @@ function buildInventoryList(){
       row.className = 'inv-item' + (invDraft[t.id] ? ' owned' : '');
       row.dataset.typeId = t.id;
       row.dataset.hay = searchKey(`${t.label} ${paletteLabel(t)} ${t.catalogNo||''} ${t.partCode} ${title}`);
-      row.innerHTML = `<span class="inv-name"><span class="inv-part">${shortCode(t)}</span>${shortCode(t)===t.label ? '' : `<span class="code inv-label">${paletteLabel(t)}</span>`}${t.catalogNo && t.partCode ? `<span class="code">&middot; ${t.catalogNo}</span>` : ''}</span>`
+      row.innerHTML = `<span class="inv-name"><span class="inv-part">${shortCode(t)}</span>${shortCode(t)===t.label ? '' : `<span class="code inv-label">${paletteLabel(t)}</span>`}${t.catalogNo && (t.partCode || t.roadPlate) ? `<span class="code">&middot; ${t.catalogNo}</span>` : ''}</span>`
         + `<span class="inv-step"><button type="button" data-d="-1" aria-label="&minus;">&minus;</button>`
         + `<input type="text" inputmode="numeric" value="${invDraft[t.id]||0}" aria-label="${shortCode(t)}">`
         + `<button type="button" data-d="1" aria-label="+">+</button></span>`;
@@ -11964,8 +12084,8 @@ function buildInventoryList(){
     });
   };
   PALETTE_GROUPS.forEach(({key, match})=>section(tr('palette.group.'+key),
-    TRACK_TYPES.filter(match).sort((a,b)=>(a.paletteOrder||0)-(b.paletteOrder||0))));
-  section(tr('palette.group.misc'), [...TRACK_TYPES.filter(t=>t.misc), ...JOINER_TYPES]);
+    [...TRACK_TYPES.filter(match).sort((a,b)=>(a.paletteOrder||0)-(b.paletteOrder||0)), ...(key==='unitram' ? [UNITRAM_FEEDER] : [])]));
+  section(tr('palette.group.misc'), [...TRACK_TYPES.filter(t=>t.misc), ...JOINER_TYPES.filter(t=>!t.unitram)]);
 }
 // Hovering a part code shows the piece, drawn like the palette icon at twice
 // the size; built once per type.
@@ -13197,8 +13317,8 @@ function pngLabelPlacements(items, fontMm, mid, avoid=[]){
   // Each piece's candidate spots, then the most crowded pieces (fewest spots
   // beside them clear of track) placed first, so they get the near spots.
   const cands = items.map(it=>{
-    const type = TT[it.p.typeId], text = shortCode(type);
-    const w =text.length*PART_LABEL_CHAR_EM*fontMm + 2*gapMm, h = fontMm*1.25;
+    const type = TT[it.p.typeId], text = shortCode(type), lines = partLabelLines(text);
+    const w = longestLine(lines)*PART_LABEL_CHAR_EM*fontMm + 2*gapMm, h = fontMm*1.25*lines.length;
     const c = worldPoint(it.p, pieceCenterLocal(type));
     const a = deg2rad(it.p.rot + partLabelAngle(type) + 90);
     let nx = Math.cos(a), ny = Math.sin(a);
@@ -13366,17 +13486,17 @@ function buildPngSvg(){
   const m = PNG_MARGIN_PX/k;
   const vx = all.x0-m, vy = all.y0-m, vw = all.x1-all.x0+2*m, vh = all.y1-all.y0+2*m;
   const W = Math.round(vw*k), H = Math.round(vh*k);
-  // Per piece, the outline stroked at twice its width and then the fill over
-  // it, so each joint keeps half an edge's width. Even-odd fill leaves where a
-  // piece's routes overlap unfilled, so every route's outline shows (a
+  // Per piece, the fill and then the outline centred over it, so a joint's line
+  // lies on the joint whichever piece was drawn last. Even-odd fill leaves where
+  // a piece's routes overlap unfilled, so every route's outline shows (a
   // turnout's diverging route inside its through route), the same for either
   // hand: with nonzero fill it depended on which way each route was drawn.
   let body = '';
   items.forEach(({p})=>{
     const d = pieceGraphics(TT[p.typeId]).map(seg=>seg.roadbed).join('');
     const t = `translate(${p.ox.toFixed(3)} ${p.oy.toFixed(3)}) rotate(${p.rot.toFixed(3)})`;
-    body += `<path transform="${t}" d="${d}" fill="none" stroke="#000" stroke-width="${(2*edge).toFixed(3)}" stroke-linejoin="round"/>`
-      + `<path transform="${t}" d="${d}" fill="#fff" fill-rule="evenodd" stroke="none"/>`;
+    body += `<path transform="${t}" d="${d}" fill="#fff" fill-rule="evenodd" stroke="none"/>`
+      + `<path transform="${t}" d="${d}" fill="none" stroke="#000" stroke-width="${edge.toFixed(3)}" stroke-linejoin="round"/>`;
   });
   body += pngHiddenEdges(items, edge) + pngSlopeMarks(items, fontMm, edge) + marks.svg;
   const esc = s=>s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
@@ -13386,7 +13506,9 @@ function buildPngSvg(){
       body += `<line x1="${l.leader.x.toFixed(2)}" y1="${l.leader.y.toFixed(2)}" x2="${tx.toFixed(2)}" y2="${ty.toFixed(2)}" stroke="#888" stroke-width="${(edge/2).toFixed(3)}"/>`
         + `<circle cx="${l.leader.x.toFixed(2)}" cy="${l.leader.y.toFixed(2)}" r="${(edge*1.4).toFixed(3)}" fill="#555"/>`;
     }
-    body += `<text x="${l.x.toFixed(2)}" y="${l.y.toFixed(2)}" font-size="${l.fontMm.toFixed(3)}" text-anchor="middle" dominant-baseline="central">${esc(l.text)}</text>`;
+    const lines = partLabelLines(l.text);
+    body += `<text x="${l.x.toFixed(2)}" y="${l.y.toFixed(2)}" font-size="${l.fontMm.toFixed(3)}" text-anchor="middle" dominant-baseline="central">`
+      + (lines.length===1 ? esc(l.text) : lines.map((line, i)=>`<tspan x="${l.x.toFixed(2)}" dy="${i ? '1.1em' : '-0.55em'}">${esc(line)}</tspan>`).join('')) + `</text>`;
   });
   notes.forEach(n=>{
     const lines = textLines(n.text), lh = n.size*TEXT_LINE_EM;
@@ -13689,7 +13811,7 @@ function applyLayoutData(data){
     if(kind==='IJ' && !other) return; // an IJ needs its joint
     if(!loadedJoiners[key] && !(other && loadedJoiners[other])){
       loadedJoiners[key] = kind;
-      if(kind==='TJ' && data.joinerFlip && data.joinerFlip[k] === true) loadedJoinerFlip[key] = true;
+      if(isFeeder(kind) && data.joinerFlip && data.joinerFlip[k] === true) loadedJoinerFlip[key] = true;
     }
   });
   pieces = loadedPieces;
