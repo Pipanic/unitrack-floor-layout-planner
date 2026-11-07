@@ -25,6 +25,16 @@ Try it here now: https://pipanic.github.io/unitrack-floor-layout-planner/
 
 Press the red **?** in the header for the full guide.
 
+## Browsers
+
+The planner is made and tested in Chrome and Edge, and checked in Firefox.
+It hasn't yet been tested in Safari on a Mac, so you may find rough edges
+there: for example, the drop-down menus in Settings may be hard to read. It
+also leans on a mouse wheel (turning a piece while you drag it, swapping it for
+a related piece, zooming), which can be awkward with a trackpad. If something
+doesn't work in your browser, please
+[open an issue](https://github.com/Pipanic/unitrack-floor-layout-planner/issues).
+
 ## Not affiliated with KATO
 
 This is an independent, unofficial project. It is not made by, affiliated with
