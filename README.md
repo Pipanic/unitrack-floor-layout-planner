@@ -14,12 +14,12 @@ Try it here now: https://pipanic.github.io/unitrack-floor-layout-planner/
 ## What it does
 
 - Real KATO Unitrack geometry for straights, curves, turnouts, crossings,
-  double track, viaducts, bridges, buffers, platforms and more.
+  double track, viaducts, bridges, buffers, the turntable, platforms and more.
 - Snapping that follows how the real parts fit, with ground and 50 mm
   elevation, gradients, and a warning where track crosses too low.
 - Power View (joints from the nearest feeder), UniJoiners, and a Fill Gap
   tool that finds the pieces to join two open ends.
-- A parts list, with the fewest KATO packs that cover it, and an Inventory 
+- A parts list, with the fewest KATO packs that cover it, and an Inventory
   & Limited Mode that limits you to the track you own.
 - Tabletop outlines, text labels, undo, PNG export, and save and load.
 
@@ -35,12 +35,25 @@ against KATO's own catalogue before you buy.
 
 ## About this repository
 
-This repository holds the released build: `index.html` is the whole planner,
-in one file.
+`index.html` is the whole planner, in one file, built and minified from the
+commented source in `src/`, which is its documentation.
 
 Most code was vibe-coded with Claude Sonnet, with Claude Opus conducting multiple
 code reviews when appropriate, to tidy, find efficiencies, and make more elegant
 the code.
+
+### Building it
+
+`build.ps1` (Windows PowerShell; nothing to install) joins `src/` into one
+file:
+
+- `build.ps1` writes `katoplanner.html`, readable, with every comment.
+- `build.ps1 -Release` writes `dist/index.html`, the published file: it
+  type-checks the scripts (plain JavaScript with JSDoc types), then minifies
+  them, fetching esbuild and TypeScript's `tsc` into `tools/` on first use.
+
+The Help text is written in `help-guide.md` and built into the source by
+`build-help.ps1`.
 
 ## Licence
 

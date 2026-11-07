@@ -1,0 +1,295 @@
+  :root{
+    /* Track status colours the user can change in Settings (USER_COLOURS), the
+       same in every theme. --sel-fill and --sel-pill are shades of --sel. */
+    --ground:#565d69; --elev-flat:#c9975c;
+    --slope-low:#584280; --slope-high:#eb7daf;
+    --power-near:#285aeb; --power-far:#ff6b6b;
+    --sel:#4fb0ff; --sel-fill:#2c4a63; --sel-pill:#1a2530;
+    --bg:#14171c;
+    --panel:#1c2027;
+    --panel-border:#2a2f38;
+    --text:#e8eaed;
+    --text-dim:#8b93a1;
+    --accent:#4fb0ff;
+    --accent-dim:#2a5578;
+    --roadbed:#5b6270;
+    --roadbed-dark:#40454f;
+    --open-port:#3ddc84;
+    --danger:#ff6b6b;
+    /* controls sitting on a panel: one step lighter than --panel (dark theme) or darker (light) */
+    --surface:#242933;
+    --surface-hover:#2b323f;
+    --surface-sunken:#1a1e25; /* palette thumbnail icon box — one step further than --surface */
+    --canvas-grid:#242933; /* the dot-grid painted behind pieces on the canvas */
+    --hint-ok-bg:#1a2e22; --hint-ok-border:#2c5c3d; --hint-ok-text:#8fe3ac;
+    --hint-warn-bg:#332318; --hint-warn-border:#6b4a24; --hint-warn-text:#f0b878;
+    --start-bg:#1e3a2a; --start-border:#2c6b3f; --start-text:#8fe3ac; /* "+ Place starting piece" — same green family as hint-ok */
+    --danger-bg:#3a2020; --danger-border:#6b2c2c; --danger-text:#ff9d9d; /* default .action button (Delete) */
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;}
+  #app{display:grid;grid-template-columns:260px 1fr 240px;grid-template-rows:52px 1fr;height:100vh;}
+  header{grid-column:1/4;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--panel);border-bottom:1px solid var(--panel-border);}
+  header h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.2px;}
+  /* The grid cell: a fixed search box above the scrolling #palette. The search box lives outside #palette so a palette rebuild can't recreate it. */
+  #paletteCol{display:flex;flex-direction:column;background:var(--panel);border-right:1px solid var(--panel-border);overflow:hidden;min-height:0;}
+  #paletteSearchWrap{flex-shrink:0;padding:10px 10px 0;position:relative;}
+  /* A thin band of panel colour hanging just below the search box, over the top of the scrolling list, so the two don't read as one flat surface. Positioned, so it paints above the in-flow list content. */
+  #paletteSearchWrap::after{
+    content:'';position:absolute;left:0;right:0;bottom:-6px;height:6px;
+    background:var(--panel);pointer-events:none;
+  }
+  #paletteSearchWrap .searchbox{position:relative;}
+  #paletteSearch, .gest-search, #gestSearch, #helpSearch{
+    width:100%;background:var(--surface);border:1px solid var(--panel-border);color:var(--text);
+    border-radius:6px;padding:7px 30px 7px 10px;font-size:12.5px;outline:none;font-family:inherit;
+  }
+  #paletteSearch:focus, #gestSearch:focus, #helpSearch:focus{border-color:var(--accent-dim);}
+  #paletteSearch::placeholder, #gestSearch::placeholder, #helpSearch::placeholder{color:var(--text-dim);}
+  #paletteSearchClear, .gest-search-x{
+    display:none;position:absolute;right:4px;top:50%;transform:translateY(-50%);
+    background:none;border:none;color:var(--text-dim);font-size:17px;line-height:1;
+    cursor:pointer;padding:4px 6px;border-radius:4px;
+  }
+  #paletteSearchClear:hover{color:var(--text);background:var(--surface-hover);}
+  #paletteNoMatches{display:none;color:var(--text-dim);font-size:12px;text-align:center;padding:26px 10px;}
+  #palette{flex:1;min-height:0;overflow-y:auto;padding:10px;}
+  #palette h2, .gest-palette h2{
+    font-size:12.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 6px;
+    font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none;padding:2px 4px;
+    border-radius:4px;
+  }
+  #palette h2:hover, .gest-palette h2.hover{background:var(--surface);color:var(--text);}
+  #palette .pgroup:first-child h2, .gest-palette .pgroup:first-child h2{margin-top:4px;}
+  #palette h2 .chev, .gest-palette h2 .chev{display:inline-block;transition:transform .12s;font-size:9px;color:var(--text-dim);}
+  #palette h2.collapsed .chev, .gest-palette h2.collapsed .chev{transform:rotate(-90deg);}
+  #palette .pgroup, .gest-palette .pgroup{margin-bottom:2px;}
+  /* A collapsed group hides its own buttons only: its subcategories stay, each with its own collapse. */
+  #palette .pgroup.collapsed > .pbtn, .gest-palette .pgroup.collapsed > .pbtn{display:none;}
+  /* Subcategory (reskins and recolours): indented, in the old smaller header size. */
+  #palette .pgroup.sub{margin-left:12px;}
+  #palette .pgroup.sub > h2{font-size:11px;margin-top:10px;}
+  .pbtn{
+    display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--panel-border);
+    color:var(--text);border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:12.5px;cursor:grab;
+    transition:background .12s,border-color .12s;user-select:none;
+  }
+  .pbtn:hover, .pbtn.hover{background:var(--surface-hover);border-color:var(--accent-dim);}
+  .pbtn:active{cursor:grabbing;}
+  .code{color:var(--text-dim);font-size:10.5px;display:block;margin-top:2px;}
+  /* The Selection section reads in the full text colour, as the Layout section does;
+     part codes elsewhere (the palette) stay dim. */
+  #selInfo, #selInfo .code, #selInfo .sel-row .sel-count{color:var(--text);}
+  #selInfo .sel-summary{margin-bottom:6px;}
+  /* The track length row is a Layout-style .stat, its faint divider below; a
+     multi-selection's part list follows, closed by another. */
+  #selInfo .sel-length{margin-top:4px;}
+  #selInfo .sel-list{display:flex;flex-direction:column;gap:3px;max-height:220px;overflow-y:auto;
+    padding:6px 0;border-bottom:1px solid var(--panel-border);}
+  #selInfo .sel-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;}
+  #selInfo .sel-row .code{margin-top:0;}
+  #selInfo .sel-row .sel-count{flex-shrink:0;}
+  .pbtn-icon{flex-shrink:0;display:block;background:var(--surface-sunken);border-radius:4px;width:55px;height:36px;}
+  .pbtn-text{flex:1;min-width:0;}
+  /* Limited Mode: remaining stock on each palette button */
+  .pbtn .stock{flex-shrink:0;min-width:2.2em;text-align:center;font-size:11.5px;font-weight:600;padding:2px 6px;border-radius:10px;background:var(--surface-sunken);color:var(--text);}
+  .pbtn .stock.short{color:var(--danger-text);background:var(--danger-bg);}
+  .pbtn.unowned{cursor:not-allowed;}
+  .pbtn.unowned .pbtn-text, .pbtn.unowned .pbtn-icon{opacity:.38;} /* the badge stays readable */
+  .pbtn.unowned:hover{background:var(--surface);border-color:var(--panel-border);}
+  #canvasWrap{position:relative;overflow:hidden;background:
+     radial-gradient(circle,var(--canvas-grid) 1px,transparent 1px) 0 0/22px 22px, var(--bg);}
+  svg{width:100%;height:100%;display:block;cursor:default;}
+  /* A drag-pan mustn't select canvas text (part labels, dimensions). */
+  #stage text{user-select:none;-webkit-user-select:none;}
+  /* the tabletop size inputs: no spinner, so four or five digits fit */
+  #stage input[type=number]::-webkit-inner-spin-button, #stage input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+  svg.panning{cursor:grabbing;}
+  .piece{cursor:grab;}
+  .piece:active{cursor:grabbing;}
+  /* A piece drag reuses the 'panning' class for the grabbing cursor; without this, each re-rendered <g class="piece"> would revert to the open hand. */
+  svg.panning .piece{cursor:grabbing;}
+  /* Tap Shift: white with a dark edge shows on any track or background. */
+  #aimCrosshair{position:absolute;left:50%;top:50%;width:33px;height:33px;transform:translate(-50%,-50%);pointer-events:none;z-index:5;}
+  /* Marquee on (tap Ctrl): a small box around it, so the mode shows even before the box has any size. */
+  #aimCrosshair.marquee{outline:1px dashed #fff;outline-offset:4px;filter:drop-shadow(0 0 1px #000);}
+  #aimCrosshair::before, #aimCrosshair::after{content:'';position:absolute;background:#fff;box-shadow:0 0 0 1px #000;}
+  #aimCrosshair::before{left:16px;top:0;width:1px;height:33px;}
+  #aimCrosshair::after{top:16px;left:0;height:1px;width:33px;}
+  #info{background:var(--panel);border-left:1px solid var(--panel-border);padding:14px;overflow-y:auto;font-size:12.5px;display:flex;flex-direction:column;}
+  #info > *{flex-shrink:0;}
+  #info h2{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.6px;margin:0 0 8px;font-weight:600;}
+  #info .stat{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--panel-border);}
+  #hint{box-sizing:border-box;background:var(--hint-ok-bg);border:1px solid var(--hint-ok-border);color:var(--hint-ok-text);border-radius:6px;padding:9px 10px;font-size:12px;margin-bottom:12px;line-height:1.4;}
+  #hint.warn{background:var(--hint-warn-bg);border-color:var(--hint-warn-border);color:var(--hint-warn-text);}
+  button.action{
+    width:100%;background:var(--danger-bg);border:1px solid var(--danger-border);color:var(--danger-text);border-radius:6px;
+    padding:8px;font-size:12px;cursor:pointer;margin-top:6px;
+  }
+  button.action:disabled{opacity:.3;cursor:not-allowed;}
+  .zoomctl{position:absolute;bottom:14px;right:14px;display:flex;align-items:center;gap:6px;}
+  .zoomctl button{width:30px;height:30px;border-radius:6px;background:var(--surface);border:1px solid var(--panel-border);color:var(--text);cursor:pointer;font-size:16px;}
+  #tiesToggle.auto-hidden, #portsToggle.auto-hidden{border-style:dashed;border-color:var(--accent-dim);}
+  .zoomctl .zoom-level{min-width:40px;text-align:center;font-size:11.5px;color:var(--text-dim);font-variant-numeric:tabular-nums;user-select:none;cursor:default;}
+  .zoomctl-sep{width:1px;align-self:stretch;background:var(--panel-border);margin:0 2px;}
+  #levelGround.active, #levelElevated.active, #levelAll.active, #tiesToggle.active, #portsToggle.active, #partLabelsToggle.active{background:var(--accent-dim);border-color:var(--accent);color:var(--text);}
+  .flag{color:var(--hint-warn-text);}
+  .hdrbtn{background:var(--surface);border:1px solid var(--panel-border);color:var(--text);border-radius:6px;padding:6px 12px;font-size:12.5px;cursor:pointer;}
+  .hdrbtn:hover{background:var(--surface-hover);border-color:var(--accent-dim);}
+  .hdrbtn:disabled{opacity:.35;cursor:not-allowed;}
+  .hdrbtn:disabled:hover{background:var(--surface);border-color:var(--panel-border);}
+  /* a <select> shares the header button styling but keeps its native dropdown arrow, so it still reads as a dropdown */
+  select.hdrbtn{font-family:inherit;}
+  select.hdrbtn:focus{outline:none;border-color:var(--accent-dim);}
+  /* Header buttons: an icon and a word. Narrow, only the icon shows; the word
+     stays for screen readers, and each button's tooltip names it. */
+  .hdrbtn .hdr-label{margin-left:.35em;}
+  @media (max-width:1360px){
+    header .hdrbtn .hdr-label{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
+  }
+  .hdrsep{width:1px;align-self:stretch;background:var(--panel-border);margin:0 2px;}
+  /* DIALOGS (Help, confirm, Inventory, parts, packs, PNG): a backdrop and a
+     centred panel rather than <dialog>, so closing and shortcut-swallowing
+     are fully under our control. A head with the title and a close button,
+     then the body, then a foot of buttons. */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;}
+  #confirmOverlay, #packsOverlay{z-index:1001;} /* over the dialog that opened them */
+  .modal{background:var(--panel);border:1px solid var(--panel-border);border-radius:10px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  .help-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--panel-border);flex-shrink:0;}
+  .help-head h2{margin:0;font-size:16px;font-weight:600;}
+  .modal-close{background:none;border:none;color:var(--text-dim);font-size:22px;line-height:1;cursor:pointer;padding:2px 8px;border-radius:6px;}
+  .modal-close:hover{background:var(--surface-hover);color:var(--text);}
+  .parts-foot{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--panel-border);flex-shrink:0;}
+  #helpModal{width:min(900px,94vw);height:88vh;} /* fixed, so a search doesn't resize it */
+  #helpModal .help-body{padding:6px 18px 18px;overflow-y:auto;font-size:13px;line-height:1.55;}
+  #helpModal .help-body h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-dim);margin:18px 0 8px;}
+  #helpModal .help-body p{margin:0 0 10px;color:var(--text-dim);}
+  .help-row{display:flex;gap:14px;align-items:baseline;padding:4px 0;}
+  .help-row .keys{flex-shrink:0;min-width:172px;}
+  .help-row .desc{color:var(--text-dim);}
+  /* The guide: a sticky section list beside the scrolling content; stacked on narrow screens. */
+  .help-layout{display:grid;grid-template-columns:170px 1fr;gap:24px;}
+  .help-nav{position:sticky;top:0;align-self:start;display:flex;flex-direction:column;gap:1px;padding-top:14px;}
+  .help-nav a{color:var(--text-dim);text-decoration:none;font-size:12.5px;padding:3px 8px;border-radius:5px;}
+  .help-nav a:hover{background:var(--surface-hover);color:var(--text);}
+  .help-content section{scroll-margin-top:4px;}
+  #helpModal .help-row .keys{flex:0 0 200px;min-width:0;}
+  .help-content section:not([hidden]) ~ section{border-top:1px solid var(--panel-border);margin-top:14px;}
+  #helpModal .help-body ul, #helpModal .help-body ol{margin:0 0 10px;padding-left:20px;color:var(--text-dim);}
+  #helpModal .help-body li{margin:3px 0;}
+  #helpModal .help-body strong{color:var(--text);font-weight:600;}
+  .swatch{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(0,0,0,.4);}
+  .swatch.dot{border-radius:50%;}
+  @media (max-width:720px){
+    .help-layout{grid-template-columns:1fr;gap:4px;}
+    .help-nav{position:static;flex-direction:row;flex-wrap:wrap;}
+  }
+  #helpModal kbd, #gestModal kbd{background:var(--surface);border:1px solid var(--panel-border);border-bottom-width:2px;border-radius:4px;padding:1px 6px;font-size:11.5px;font-family:inherit;color:var(--text);white-space:nowrap;}
+  /* GESTURES WINDOW: a grid of cards, each a looping demo over a patch of canvas, then the mouse and keys in use, then the caption */
+  #gestModal{width:min(900px,94vw);height:88vh;}
+  .gest-body{padding:0 18px 16px;overflow-y:auto;}
+  /* beside the title; pushes the close button to the far end */
+  #gestSearch, #helpSearch{width:min(240px,40vw);margin:0 auto 0 18px;padding-right:10px;}
+  #gestNone, #helpNone{color:var(--text-dim);font-size:13px;text-align:center;padding:30px 0 14px;margin:0;}
+  #gestBody [hidden], #helpModal [hidden]{display:none;}
+  .gest-body h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-dim);margin:16px 0 8px;}
+  .gest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+  .gest-card{margin:0;background:var(--surface);border:1px solid var(--panel-border);border-radius:8px;}
+  .gest-stage{position:relative;aspect-ratio:264/150;border-radius:7px 7px 0 0;overflow:hidden;
+    background:radial-gradient(circle,var(--canvas-grid) 1px,transparent 1px) 0 0/22px 22px, var(--bg);}
+  .gest-stage > svg{position:absolute;inset:0;width:100%;height:100%;}
+  /* the view setting a key just chose, as its button's tooltip names it */
+  .gest-tag{position:absolute;top:6px;right:8px;font-size:11px;color:var(--text);background:var(--surface);border:1px solid var(--panel-border);border-radius:5px;padding:1px 7px;}
+  .gest-tag:empty{display:none;}
+  /* A real palette's markup at a fixed size, scaled with the card (buildGestCard sets the scale) */
+  .gest-palette{position:absolute;left:0;top:0;width:240px;padding:10px;overflow:hidden;background:var(--panel);border-right:1px solid var(--panel-border);transform-origin:0 0;}
+  .gest-palette .searchbox{position:relative;margin-bottom:6px;}
+  .gest-search{min-height:32px;}
+  .gest-search:empty::before{content:attr(data-placeholder);color:var(--text-dim);}
+  .gest-input{display:flex;align-items:center;gap:5px;padding:5px 10px;border-top:1px solid var(--panel-border);border-bottom:1px solid var(--panel-border);}
+  .gest-mouse{width:16px;height:25px;}
+  .gest-mouse path, .gest-mouse rect{fill:var(--surface);stroke:var(--text-dim);stroke-width:1.2;}
+  .gest-mouse .on{fill:var(--accent);}
+  .gest-wheel{width:10px;font-size:10px;color:var(--accent);}
+  #gestModal .gest-input kbd{opacity:.45;}
+  #gestModal .gest-input kbd.on{opacity:1;background:var(--accent-dim);border-color:var(--accent);}
+  .gest-card figcaption{padding:10px 12px 12px;font-size:12.5px;line-height:1.5;color:var(--text-dim);}
+  .gest-card figcaption strong{display:block;color:var(--text);font-weight:600;margin-bottom:2px;}
+  .gest-foot{justify-content:flex-start;font-size:12.5px;color:var(--text-dim);}
+  .gest-foot a{color:var(--accent);}
+  /* CONFIRMATION DIALOG (see askConfirm() for why it exists) */
+  #confirmModal{display:block;width:min(430px,92vw);padding:20px;}
+  #confirmModal p{margin:0 0 18px;font-size:13px;line-height:1.55;}
+  #confirmModal .confirm-actions{display:flex;justify-content:flex-end;gap:8px;}
+  #confirmModal .hdrbtn.primary{background:var(--accent-dim);border-color:var(--accent);}
+  #confirmModal .hdrbtn:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  /* the neutral .action button: neither destructive (red) nor starting a mode (green) */
+  button.action.neutral{background:var(--surface);border-color:var(--panel-border);color:var(--text);}
+  button.action.neutral:hover:not(:disabled){background:var(--surface-hover);border-color:var(--accent-dim);}
+  /* INVENTORY */
+  #invModal{width:min(640px,94vw);height:min(760px,88vh);}
+  #invTools{padding:12px 18px;border-bottom:1px solid var(--panel-border);display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+  #invTools .inv-row{display:flex;gap:8px;align-items:center;}
+  #invTools input{background:var(--surface);border:1px solid var(--panel-border);color:var(--text);border-radius:6px;padding:6px 9px;font-size:13px;}
+  #invSearch{flex:1;}
+  #invPackNo{width:15em;}
+  /* the colour goes on the focus ring too, or the browser's ring hides it while typing */
+  #invTools #invPackNo:focus{outline:none;border-color:var(--accent-dim);}
+  #invTools #invPackNo.valid{border-color:var(--start-border);box-shadow:0 0 0 1px var(--start-border);}
+  #invTools #invPackNo.invalid{border-color:var(--danger-border);box-shadow:0 0 0 1px var(--danger-border);}
+  #invPackMsg{font-size:12px;color:var(--text-dim);min-height:1.2em;}
+  #invList{padding:4px 18px 12px;overflow-y:auto;flex:1;}
+  #invList h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-dim);margin:14px 0 6px;}
+  .inv-item{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--panel-border);font-size:13px;}
+  .inv-item .inv-name{flex:1;min-width:0;}
+  .inv-item .code{display:inline;margin-left:6px;}
+  .inv-item .inv-name{cursor:default;}
+  .inv-item .inv-part{cursor:pointer;user-select:none;}
+  /* hover preview of a piece, the palette icon at twice the size */
+  #invPreview{position:fixed;z-index:1002;pointer-events:none;display:none;background:var(--panel);border:1px solid var(--panel-border);border-radius:8px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+  #invPreview .pbtn-icon{width:110px;height:72px;display:block;}
+  /* the in-place text label editor, floating over the canvas (placeTextEditor) */
+  .text-editor{position:absolute;box-sizing:border-box;margin:0;resize:none;overflow:hidden;white-space:pre;font-weight:600;line-height:1.25;text-align:center;color:var(--text);background:rgba(26,37,48,.85);border:1.5px solid #4fb0ff;border-radius:4px;outline:none;transform-origin:50% 50%;z-index:5;}
+  #invPreview .pbtn-icon.set-preview{width:220px;height:144px;}
+  #invPreview .preview-caption{font-size:11.5px;color:var(--text);text-align:center;margin-top:5px;max-width:220px;}
+  /* Empty layout: a message and starter layouts, centred over the canvas. Only the buttons take the mouse. */
+  #emptyStart{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px;pointer-events:none;text-align:center;}
+  #emptyStart.show{display:flex;}
+  #emptyStart p{margin:0;max-width:30em;font-size:14px;line-height:1.5;color:var(--text-dim);}
+  #emptyStart .starts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:520px;pointer-events:auto;}
+  #emptyStart .pbtn{width:auto;min-width:56px;justify-content:center;margin:0;padding:8px 12px;font-size:14px;font-weight:600;}
+  .inv-step{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+  .inv-step button{width:26px;height:26px;border-radius:6px;background:var(--accent-dim);border:1px solid var(--accent);color:var(--text);cursor:pointer;font-size:15px;line-height:1;}
+  .inv-step button:hover{background:var(--accent);}
+  .inv-step input{width:3.2em;text-align:center;background:var(--surface-sunken);border:1px solid var(--panel-border);color:var(--text);border-radius:6px;padding:4px 2px;font-size:13px;}
+  .inv-item.owned .inv-step input{border-color:var(--accent-dim);color:var(--text);font-weight:600;}
+  #invModal .parts-foot{justify-content:flex-start;align-items:center;}
+  #invTotal{font-size:12.5px;color:var(--text-dim);margin-right:auto;}
+  #invModal .hdrbtn.primary{background:var(--accent-dim);border-color:var(--accent);}
+  /* PARTS LIST, PACKS, PNG PREVIEW */
+  #partsModal, #packsModal, #pngModal{width:min(620px,92vw);max-height:82vh;}
+  #pngModal{width:min(960px,94vw);}
+  /* SETTINGS: a label and its control per row */
+  #settingsModal{width:min(420px,92vw);max-height:88vh;}
+  .settings-body{display:grid;grid-template-columns:auto 1fr;gap:12px 16px;align-items:center;padding:16px 18px 20px;font-size:13px;overflow-y:auto;min-height:0;}
+  #autosaveCheck{justify-self:start;width:16px;height:16px;margin:0;accent-color:var(--accent);}
+  #forgetBtn{justify-self:start;}
+  .settings-body label{color:var(--text-dim);}
+  .settings-body h3{grid-column:1/-1;margin:6px 0 -4px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-dim);font-weight:600;}
+  .settings-colour{display:flex;align-items:center;gap:8px;}
+  .settings-colour input{width:44px;height:28px;padding:2px;border:1px solid var(--panel-border);border-radius:6px;background:var(--surface);cursor:pointer;}
+  .settings-colour .hdrbtn{padding:4px 9px;}
+  .settings-colour input[type=number]{width:72px;padding:2px 6px;color:var(--text);cursor:text;}
+  .png-view{padding:12px 18px;overflow:auto;display:flex;justify-content:center;}
+  #pngImg{max-width:100%;max-height:66vh;background:#fff;border:1px solid var(--panel-border);border-radius:4px;}
+  .parts-scroll{padding:10px 18px;overflow-y:auto;}
+  .parts-note{font-size:12.5px;color:var(--text-dim);line-height:1.5;margin:4px 0 10px;}
+  .parts-flag{color:var(--hint-warn-text);cursor:help;}
+  /* a real <table> with selectable text, so it copies and pastes into a spreadsheet */
+  table.parts-table{width:100%;border-collapse:collapse;font-size:13px;user-select:text;cursor:text;}
+  table.parts-table th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-dim);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--panel-border);}
+  table.parts-table td{padding:5px 8px;border-bottom:1px solid var(--panel-border);}
+  table.parts-table td.qty, table.parts-table th.qty{text-align:right;width:3.5em;}
+  /* The pack view's catalogue number stays on one line beside a long set row. */
+  #packsTable td:nth-child(2){white-space:nowrap;}
+  table.parts-table tfoot td{border-bottom:none;font-weight:600;}

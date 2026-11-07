@@ -1,0 +1,4 @@
+# Build output (build.ps1) and the build tools it fetches.
+katoplanner.html
+/dist/
+/tools/
